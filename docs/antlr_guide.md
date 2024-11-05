@@ -26,21 +26,21 @@ pacman -S antlr4-runtime
 
 ### 生成语法树
 
-#### 使用 VScode 插件(推荐)
+#### ~~使用 VScode 插件~~（由于增加语法的原因已弃用）
 
-首先在 Windows 环境下安装插件（注意，不要在 WSL 环境下安装）：
+~~首先在 Windows 环境下安装插件（注意，不要在 WSL 环境下安装）：~~
 
 ![vscode-plugin](https://github.com/ACMClassCourse-2023/Python-Interpreter-2023/blob/main/docs/vscode-plugin.png)
 
-安装后，点击卸载旁的箭头，安装 2.3.1 版本。
+~~安装后，点击卸载旁的箭头，安装 2.3.1 版本。~~
 
 ![vscode-install](https://github.com/ACMClassCourse-2023/Python-Interpreter-2023/blob/main/docs/vscode-install.png)
 
-安装完后重新加载。打开 `Python3.g4` 文件，右边会出现对应插件的图标，点击，等待其中的 PARSER RULES 等部分加载完毕。
+~~安装完后重新加载。打开 `Python3.g4` 文件，右边会出现对应插件的图标，点击，等待其中的 PARSER RULES 等部分加载完毕。~~
 
 ![vscode-antlr](https://github.com/ACMClassCourse-2023/Python-Interpreter-2023/blob/main/docs/vscode-antlr.png)
 
-接下来配置运行文件。点击左侧的运行和调试，创建 `launch.json` 文件，并写入
+~~接下来配置运行文件。点击左侧的运行和调试，创建 `launch.json` 文件，并写入~~
 
 ```javascript
 { 
@@ -61,23 +61,42 @@ pacman -S antlr4-runtime
 } 
 ```
 
-最后打开要运行的文件，在左侧的运行和调试中，点击运行即可生成，如下图所示。
+~~最后打开要运行的文件，在左侧的运行和调试中，点击运行即可生成，如下图所示。~~
 
 ![vscode-antlr-result](https://github.com/ACMClassCourse-2023/Python-Interpreter-2023/blob/main/docs/vscode-antlr-result.png)
 
-#### 使用 Clion 插件
+#### ~~使用 Clion 插件~~（由于增加语法的原因已弃用）
 
-由于本次 `.g4` 文件的特性，目前 ANTLR 插件只能支持不带 `INDENT` 和 `DEDENT` 规则的解释。
+~~由于本次 `.g4` 文件的特性，目前 ANTLR 插件只能支持不带 `INDENT` 和 `DEDENT` 规则的解释。~~
 
-首先在插件市场中找到插件：
+~~首先在插件市场中找到插件：~~
 
 ![plugin-market](https://github.com/ACMClassCourse-2023/Python-Interpreter-2023/blob/main/docs/plugin-market.png)
 
-安装后，右键 `.g4` 中的 `return_stmt` 或任何不包含 `INDENT` 和 `DEDENT` 的规则，点击 `test rule`：
+~~安装后，右键 `.g4` 中的 `return_stmt` 或任何不包含 `INDENT` 和 `DEDENT` 的规则，点击 `test rule`：~~
 
 ![right-click](https://github.com/ACMClassCourse-2023/Python-Interpreter-2023/blob/main/docs/right-click.png)
 
-之后在屏幕下方的 `antlr-preview` 中，左侧是待测试的代码，右侧是依据代码生成的语法树结构图。
+~~之后在屏幕下方的 `antlr-preview` 中，左侧是待测试的代码，右侧是依据代码生成的语法树结构图。~~
+
+#### 使用ANTLR内置的可视化工具
+首先，请确保ANTLR4的jar包已经被正常安装至`/usr/local/lib`。并进入`./resources`目录：
+
+```bash
+cd resources
+```
+
+然后，运行`visualize.bash`。格式为：
+
+```bash
+bash visualize.bash [Parser Rule] -gui
+```
+
+其中`[Parser Rule]`表示你希望生成的语法树的根节点的类型，例如：如果你的输入为一整个程序，则参数为`file_input`；如果你希望输入函数定义，则参数为`funcdef`等，具体可用的Parser Rule类型即为Python3Parser.g4中包含的语法规则。
+
+为了确保java生成的GUI界面可以被正常展示，请确保你的操作系统是Win11/最新版Win10/Linux系统，否则你的windows有概率无法正常显示语法树（只有高版本Windows才配了转接WSL图像的库和支持）。
+
+生成可视化语法树基于的文件是`Python3Demo.g4`，除此之外，这个文件没有特殊的作用（即与Coding没有直接关联），因此你不必理解其中的内容。如果要对其进行修改，请确保你理解其中的内容。
 
 ## ANTLR 是什么
 

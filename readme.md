@@ -63,7 +63,7 @@ CornerTest: 57 - 66
 
 ## 📝Guide
 
-关于本次大作业的所有问题，都可以在 [Q&A](https://notes.sjtu.edu.cn/4RNcROAgTHmWhs1ZX4OJ7w) 中或者本仓库的 issue 中提问。助教会更新在 Q&A 和文档中。
+关于本次大作业的所有问题，都可以在 [Q&A](https://notes.sjtu.edu.cn/s/wD8G6yIgw#) 中或者本仓库的 issue 中提问。助教会更新在 Q&A 和文档中。
 
 ### 📄语法
 
