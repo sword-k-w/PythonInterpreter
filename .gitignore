@@ -5,5 +5,11 @@ build/
 gen/
 antlr-playground/.antlr
 resources/.antlr
+
 # Testcases
 testcases/hidden-testcases
+
+# problem files
+docs/
+resources/
+testcases/
