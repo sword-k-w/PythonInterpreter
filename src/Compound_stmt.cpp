@@ -1,5 +1,4 @@
 #include <Evalvisitor.h>
-#include <cassert>
 
 std::any EvalVisitor::visitIf_stmt(Python3Parser::If_stmtContext *ctx) {
   std::vector<Python3Parser::TestContext *> test_array = ctx->test();
