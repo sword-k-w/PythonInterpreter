@@ -13,7 +13,7 @@ std::any EvalVisitor::visitArith_expr(Python3Parser::Arith_exprContext *ctx) {
   if (val.type() == typeid(bool)) {
     val = std::any_cast<int2048>(val);
   }
-  for (int i = 1; i < size; ++i) {
+  for (size_t i = 1; i < size; ++i) {
     if (std::any_cast<std::string>(visit(op_array[i - 1])) == "+") {
       if (val.type() == typeid(std::string)) {
         std::any_cast<std::string &>(val) += std::any_cast<std::string &>(visit(term_array[i]));
@@ -45,7 +45,7 @@ std::any EvalVisitor::visitTerm(Python3Parser::TermContext *ctx) {
     return val;
   }
   std::vector<Python3Parser::Muldivmod_opContext *> op_array = ctx->muldivmod_op();
-  for (int i = 1; i < size; ++i) {
+  for (size_t i = 1; i < size; ++i) {
     std::string cur_op = std::any_cast<std::string &>(visit(op_array[i - 1]));
     if (cur_op == "*") {
       if (val.type() == typeid(std::string)) {
