@@ -13,6 +13,7 @@ private:
 public:
   static std::any GetValue(const std::string &);
   static void SetValue(const std::string &, const std::any &);
+  static void InitValue(const std::string &, const std::any &);
   static void CreatScope();
   static void DeleteScope();
 };
