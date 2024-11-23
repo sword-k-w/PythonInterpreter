@@ -3,12 +3,14 @@
 #define PYTHON_INTERPRETER_EVALVISITOR_H
 
 
+#include <Scope.h>
+
 #include "Python3ParserBaseVisitor.h"
 
-constexpr std::string kBreakStmt = "@sword break";
-constexpr std::string kContinueStmt = "@sword continue";
-constexpr std::string kReturnVoidStmt = "@sword return nothing";
-constexpr std::string kNothingStmt = "@sword nothing";
+constexpr std::string_view kBreakStmt = "@sword break";
+constexpr std::string_view kContinueStmt = "@sword continue";
+constexpr std::string_view kReturnVoidStmt = "@sword return nothing";
+constexpr std::string_view kNothingStmt = "@sword nothing";
 
 class EvalVisitor : public Python3ParserBaseVisitor {
   // TODO: override all methods of Python3ParserBaseVisitor
@@ -99,8 +101,12 @@ class EvalVisitor : public Python3ParserBaseVisitor {
 
   // -------------------------------------- Format_string
 
-  std::any visitFormat_string(Python3Parser::Format_stringContext *) override;
+  // std::any visitFormat_string(Python3Parser::Format_stringContext *) override;
 };
 
+
+void TryRestore(std::any &);
+
+double StringToDouble(const std::string &);
 
 #endif//PYTHON_INTERPRETER_EVALVISITOR_H

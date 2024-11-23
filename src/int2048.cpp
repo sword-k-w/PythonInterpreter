@@ -1,5 +1,6 @@
 #include "int2048.h"
 #include <cmath>
+#include <cassert>
 
 int Polynomial::power_length;
 std::vector<int> Polynomial::bit_reversal;
@@ -24,6 +25,25 @@ int2048::int2048(long long x) {
   while (x) {
     num_.emplace_back(x % kBase_);
     x /= kBase_;
+  }
+}
+
+int2048::int2048(double x) {
+  if (fabs(x) < 1e-6) {
+    num_ = {0};
+    negative_ = false;
+  } else {
+    if (x < 0) {
+      negative_ = true;
+      x = -x;
+    }
+    while (x >= 1) {
+      double y = x / kBase_;
+      int val = x - y * kBase_;
+      assert(val >= 0 && val < kBase_);
+      num_.emplace_back(val);
+      x = y;
+    }
   }
 }
 
@@ -54,6 +74,38 @@ int2048::int2048(const Polynomial &x, bool negative) {
 int2048::~int2048() {
   num_.clear();
   num_.shrink_to_fit();
+}
+
+int2048::operator double() const {
+  double res = 0;
+  for (auto &x : num_) {
+    res *= kBase_;
+    res += x;
+  }
+  if (negative_) {
+    res = -res;
+  }
+  return res;
+}
+
+int2048::operator std::string() const {
+  if (zero()) {
+    return "0";
+  }
+  std::string res;
+  if (negative_) {
+    res = "-";
+  }
+  res += std::to_string(*num_.rbegin());
+  int size = static_cast<int>(num_.size());
+  for (int i = size - 2; i >= 0; --i) {
+    std::string tmp = std::to_string(num_[i]);
+    while (tmp.size() < kLogBase_) {
+      tmp = '0' + tmp;
+    }
+    res += tmp;
+  }
+  return res;
 }
 
 void int2048::read(const std::string &string) {
@@ -299,7 +351,7 @@ int2048 &int2048::operator *= (int x) { // ensure x is small
     x = -x;
   }
   if (x >= kBase_) {
-    return *this *= int2048(x);
+    return *this *= int2048(0ll + x);
   }
   int carry = 0;
   for (auto &val : num_) {
@@ -344,7 +396,7 @@ void int2048::MultiplyBasePower(const int &k) {
 
 int2048 int2048::Inverse(int m, const int2048 &y) {
   if (m <= kDivisionBaseline) {
-    int2048 x(1);
+    int2048 x(1ll);
     x.MultiplyBasePower(2 * m);
     return x /= y;
   }

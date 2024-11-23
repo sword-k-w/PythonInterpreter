@@ -22,9 +22,13 @@ public:
   int2048();
   int2048(long long);
   int2048(const std::string &);
+  int2048(double);
   int2048(const int2048 &);
   int2048(const Polynomial &, bool);
   ~int2048();
+
+  operator double() const;
+  operator std::string() const;
 
   void read(const std::string &);
   void print() const;

@@ -21,11 +21,14 @@ std::any EvalVisitor::visitOr_test(Python3Parser::Or_testContext *ctx) {
   if (size == 1) {
     return val;
   }
+  TryRestore(val);
   if (!std::any_cast<bool &>(val)) {
     return false;
   }
   for (size_t i = 1; i < size; ++i) {
-    if (!std::any_cast<bool &>(visit(and_array[i]))) {
+    val = visit(and_array[i]);
+    TryRestore(val);
+    if (!std::any_cast<bool &>(val)) {
       return false;
     }
   }
@@ -39,11 +42,14 @@ std::any EvalVisitor::visitAnd_test(Python3Parser::And_testContext *ctx) {
   if (size == 1) {
     return val;
   }
+  TryRestore(val);
   if (!std::any_cast<bool &>(val)) {
     return false;
   }
   for (size_t i = 0; i < size; ++i) {
-    if (!std::any_cast<bool &>(visit(not_array[i]))) {
+    val = visit(not_array[i]);
+    TryRestore(val);
+    if (!std::any_cast<bool &>(val)) {
       return false;
     }
   }
@@ -51,9 +57,10 @@ std::any EvalVisitor::visitAnd_test(Python3Parser::And_testContext *ctx) {
 }
 
 std::any EvalVisitor::visitNot_test(Python3Parser::Not_testContext *ctx) {
-  std::string op = (*ctx->children.begin())->getText();
-  if (op == "not") {
-    return !std::any_cast<bool &>(visit(ctx->not_test()));
+  if (ctx->NOT() != nullptr) {
+    std::any val = visit(ctx->not_test());
+    TryRestore(val);
+    return !std::any_cast<bool &>(val);
   } else {
     return visit(ctx->comparison());
   }
@@ -66,10 +73,12 @@ std::any EvalVisitor::visitComparison(Python3Parser::ComparisonContext *ctx) {
   if (size == 1) {
     return val;
   }
+  TryRestore(val);
   std::vector<Python3Parser::Comp_opContext *> op_array = ctx->comp_op();
   for (size_t i = 1; i < size; ++i) {
     std::any nxt = visit(arith_array[i]);
-    std::string cur_op = std::any_cast<std::string &>(visit(op_array[i - 1]));
+    TryRestore(nxt);
+    std::string cur_op = std::any_cast<std::string>(visit(op_array[i - 1]));
     if (cur_op == "<") {
       if (val.type() == typeid(std::string)) {
         if (std::any_cast<std::string &>(val) >= std::any_cast<std::string &>(nxt)) {

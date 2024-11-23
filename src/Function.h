@@ -15,9 +15,10 @@ struct Function {
 
 class FunctionSet {
 private:
-  std::map<std::string, Function> map;
+  static std::map<std::string, Function> map;
 public:
-  void Create(const std::string &, const std::vector<std::any> &);
+  static Python3Parser::SuiteContext *Create(const std::string &, const std::vector<std::any> &);
+  static void AddFunction(const std::string &, const Function &);
 };
 
 #endif //FUNC_H

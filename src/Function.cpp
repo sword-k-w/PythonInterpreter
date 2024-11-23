@@ -1,7 +1,9 @@
 #include <Function.h>
 #include <Scope.h>
 
-void FunctionSet::Create(const std::string &name, const std::vector<std::any> &val) {
+std::map<std::string, Function> FunctionSet::map;
+
+Python3Parser::SuiteContext *FunctionSet::Create(const std::string &name, const std::vector<std::any> &val) {
   const Function &func = map[name];
   Scope::CreatScope();
   size_t val_size = val.size();
@@ -12,5 +14,9 @@ void FunctionSet::Create(const std::string &name, const std::vector<std::any> &v
   for (size_t i = val_size; i < parameter_size; ++i) {
     Scope::InitValue(func.parameter[i].first, func.parameter[i].second);
   }
+  return func.suite;
 }
 
+void FunctionSet::AddFunction(const std::string &name, const Function &func) {
+  map[name] = func;
+}
