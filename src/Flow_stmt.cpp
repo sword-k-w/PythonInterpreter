@@ -26,7 +26,6 @@ std::any EvalVisitor::visitReturn_stmt(Python3Parser::Return_stmtContext *ctx) {
       if (val.type() == typeid(std::pair<std::string, bool>)) {
         std::pair<std::string, bool> tmp = std::any_cast<std::pair<std::string, bool> &>(val);
         if (tmp.second) {
-          std::cerr << "!!!!!!!!!!!!!!!!!!!!!\n";
           res.emplace_back(Scope::GetValue(tmp.first));
         } else {
           res.emplace_back(val);

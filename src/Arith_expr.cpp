@@ -53,6 +53,7 @@ std::any EvalVisitor::visitTerm(Python3Parser::TermContext *ctx) {
     return val;
   }
   std::vector<Python3Parser::Muldivmod_opContext *> op_array = ctx->muldivmod_op();
+  TryRestore(val);
   for (size_t i = 1; i < size; ++i) {
     std::string cur_op = std::any_cast<std::string>(visit(op_array[i - 1]));
     std::any val_prime = visit(factor_array[i]);
@@ -75,7 +76,7 @@ std::any EvalVisitor::visitTerm(Python3Parser::TermContext *ctx) {
     } else if (cur_op == "//") {
       std::any_cast<int2048 &>(val) /= std::any_cast<int2048 &>(val_prime);
     } else {
-      std::any_cast<int2048 &>(val) %= std::any_cast<int2048 &>(val_prime);
+      std::any_cast<int2048 &>(val) %= std::any_cast<int2048 &>(val_prime); //here
     }
   }
   return val;
@@ -114,7 +115,6 @@ std::any EvalVisitor::visitAtom_expr(Python3Parser::Atom_exprContext *ctx) {
     return visit(ctx->atom());
   } else {
     std::string name = std::any_cast<std::pair<std::string, bool>>(visit(ctx->atom())).first;
-    std::cerr << "@" << name << '\n';
     std::vector<std::any> val_array = std::any_cast<std::vector<std::any>>(visit(ctx->trailer()));
     size_t size = val_array.size();
     if (name == "print") {
