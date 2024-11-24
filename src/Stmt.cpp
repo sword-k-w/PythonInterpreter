@@ -54,6 +54,7 @@ std::any EvalVisitor::visitExpr_stmt(Python3Parser::Expr_stmtContext *ctx) {
   }
 
   int first = (ctx->augassign() == nullptr ? 0 : 1);
+
   size_t list_size = val_array.size();
   for (int i = static_cast<int>(size) - 2; i >= first; --i) {
     tmp_array = std::any_cast<std::vector<std::any>>(visit(testlist_array[i]));
@@ -61,12 +62,11 @@ std::any EvalVisitor::visitExpr_stmt(Python3Parser::Expr_stmtContext *ctx) {
       Scope::SetValue(std::any_cast<std::pair<std::string, bool> &>(tmp_array[j]).first, val_array[j]);
     }
   }
-
   if (first) {
     tmp_array = std::any_cast<std::vector<std::any>>(visit(testlist_array[0]));
     std::string op = std::any_cast<std::string>(visit(ctx->augassign()));
     for (size_t j = 0; j < list_size; ++j) {
-      std::string name = std::any_cast<std::pair<std::string, bool &>>(tmp_array[j]).first;
+      std::string name = std::any_cast<std::pair<std::string, bool> &>(tmp_array[j]).first;
       std::any val = Scope::GetValue(name);
 
       if (op == "+=") {
@@ -86,9 +86,10 @@ std::any EvalVisitor::visitExpr_stmt(Python3Parser::Expr_stmtContext *ctx) {
       } else if (op == "*=") {
         if (val.type() == typeid(std::string)) {
           std::string res = "", &cur = std::any_cast<std::string &>(val);
-          int time = std::any_cast<int>(val_array[j]);
-          while (time--) {
+          int2048 time = std::any_cast<int2048 &>(val_array[j]);
+          while (!time.zero()) {
             res += cur;
+            --time;
           }
           val = res;
         } else if (val.type() == typeid(double)) {
