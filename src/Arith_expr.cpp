@@ -136,6 +136,7 @@ std::any EvalVisitor::visitAtom_expr(Python3Parser::Atom_exprContext *ctx) {
           std::cout << ' ';
         }
       }
+      std::cerr << "*********************************\n";
       return kNothingStmt;
     } else if (name == "int") {
       if (val_array[0].type() == typeid(std::string)) {

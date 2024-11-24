@@ -1,7 +1,7 @@
 #include <Evalvisitor.h>
 
 std::any EvalVisitor::visitIf_stmt(Python3Parser::If_stmtContext *ctx) {
-  std::cerr << "If_stme!\n";
+  std::cerr << "If_stmt!\n";
   std::vector<Python3Parser::TestContext *> test_array = ctx->test();
   std::vector<Python3Parser::SuiteContext *> suite_array = ctx->suite();
   size_t size = test_array.size();
@@ -18,9 +18,11 @@ std::any EvalVisitor::visitIf_stmt(Python3Parser::If_stmtContext *ctx) {
 }
 
 std::any EvalVisitor::visitWhile_stmt(Python3Parser::While_stmtContext *ctx) {
+  std::cerr << "While_stmt!\n";
   while (std::any_cast<bool>(visit(ctx->test()))) {
     std::any val = visit(ctx->suite());
     if (val.type() != typeid(std::string_view)) {
+      std::cerr << "????????????????????\n";
       return val;
     } else if (std::any_cast<std::string_view>(val) == kBreakStmt) {
       break;
@@ -30,13 +32,17 @@ std::any EvalVisitor::visitWhile_stmt(Python3Parser::While_stmtContext *ctx) {
 }
 
 std::any EvalVisitor::visitSuite(Python3Parser::SuiteContext *ctx) {
+  std::cerr << "Suite!\n";
   if (ctx->simple_stmt() != nullptr) {
     return visit(ctx->simple_stmt());
   } else {
     std::vector<Python3Parser::StmtContext *> stmt_array = ctx->stmt();
+    std::cerr << stmt_array.size() << '\n';
     for (auto &stmt : stmt_array) {
+      std::cerr << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
       std::any val = visit(stmt);
       if (val.type() != typeid(std::string_view)) {
+        std::cerr << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
         return val;
       } else {
         std::string_view info = std::any_cast<std::string_view>(val);

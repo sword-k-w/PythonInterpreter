@@ -41,7 +41,8 @@ std::any EvalVisitor::visitExpr_stmt(Python3Parser::Expr_stmtContext *ctx) {
   std::vector<Python3Parser::TestlistContext *> testlist_array = ctx->testlist();
   size_t size = testlist_array.size();
   if (size == 1) {
-    return visit(testlist_array[0]);
+    visit(testlist_array[0]);
+    return kNothingStmt;
   }
 
   std::vector<std::any> val_array;
