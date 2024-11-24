@@ -13,3 +13,7 @@ testcases/hidden-testcases
 docs/
 resources/
 testcases/
+
+# other files
+data.txt
+out.txt

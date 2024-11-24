@@ -2,10 +2,12 @@
 #include <int2048.h>
 
 std::any EvalVisitor::visitTest(Python3Parser::TestContext *ctx) {
+  std::cerr << "Test!\n";
   return visit(ctx->or_test());
 }
 
 std::any EvalVisitor::visitTestlist(Python3Parser::TestlistContext *ctx) {
+  std::cerr << "Testlist!\n";
   std::vector<std::any> res;
   std::vector<Python3Parser::TestContext *> test_array = ctx->test();
   for (auto &son : test_array) {
@@ -15,6 +17,7 @@ std::any EvalVisitor::visitTestlist(Python3Parser::TestlistContext *ctx) {
 }
 
 std::any EvalVisitor::visitOr_test(Python3Parser::Or_testContext *ctx) {
+  std::cerr << "Or_test!\n";
   std::vector<Python3Parser::And_testContext *> and_array = ctx->and_test();
   std::any val = visit(and_array[0]);
   size_t size = and_array.size();
@@ -36,6 +39,7 @@ std::any EvalVisitor::visitOr_test(Python3Parser::Or_testContext *ctx) {
 }
 
 std::any EvalVisitor::visitAnd_test(Python3Parser::And_testContext *ctx) {
+  std::cerr << "And_test!\n";
   std::vector<Python3Parser::Not_testContext *> not_array = ctx->not_test();
   std::any val = visit(not_array[0]);
   size_t size = not_array.size();
@@ -57,6 +61,7 @@ std::any EvalVisitor::visitAnd_test(Python3Parser::And_testContext *ctx) {
 }
 
 std::any EvalVisitor::visitNot_test(Python3Parser::Not_testContext *ctx) {
+  std::cerr << "Not_test!\n";
   if (ctx->NOT() != nullptr) {
     std::any val = visit(ctx->not_test());
     TryRestore(val);
@@ -67,6 +72,7 @@ std::any EvalVisitor::visitNot_test(Python3Parser::Not_testContext *ctx) {
 }
 
 std::any EvalVisitor::visitComparison(Python3Parser::ComparisonContext *ctx) {
+  std::cerr << "Comparison!\n";
   std::vector<Python3Parser::Arith_exprContext *> arith_array = ctx->arith_expr();
   std::any val = visit(arith_array[0]);
   size_t size = arith_array.size();

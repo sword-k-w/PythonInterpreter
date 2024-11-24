@@ -2,7 +2,10 @@
 
 void TryRestore(std::any &val) {
   if (val.type() == typeid(std::pair<std::string, bool>)) {
-    val = Scope::GetValue(std::any_cast<std::pair<std::string, bool> &>(val).first);
+    std::pair<std::string, bool> tmp = std::any_cast<std::pair<std::string, bool> &>(val);
+    if (tmp.second) {
+      val = Scope::GetValue(tmp.first);
+    }
   }
 }
 

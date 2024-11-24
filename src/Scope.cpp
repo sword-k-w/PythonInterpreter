@@ -17,8 +17,10 @@ void Scope::SetValue(const std::string &key, const std::any &val) {
     local_.top()[key] = val;
   } else if (global_.find(key) != global_.end()) {
     global_[key] = val;
-  } else {
+  } else if (!local_.empty()){
     local_.top()[key] = val;
+  } else {
+    global_[key] = val;
   }
 }
 

@@ -37,6 +37,7 @@ std::any EvalVisitor::visitTfpdef(Python3Parser::TfpdefContext *ctx) {
 }
 
 std::any EvalVisitor::visitArglist(Python3Parser::ArglistContext *ctx) {
+  std::cerr << "Arglist!\n";
   std::vector<Python3Parser::ArgumentContext *> arg_array = ctx->argument();
   std::vector<std::any> res;
   for (auto &arg : arg_array) {
@@ -46,14 +47,24 @@ std::any EvalVisitor::visitArglist(Python3Parser::ArglistContext *ctx) {
 }
 
 std::any EvalVisitor::visitArgument(Python3Parser::ArgumentContext *ctx) {
+  std::cerr << "Argument!\n";
   std::vector<Python3Parser::TestContext *> test_array = ctx->test();
-  std::string name = std::any_cast<std::pair<std::string, bool>>(visit(test_array[0])).first;
-  if (test_array.size() == 1) {
-    return Scope::GetValue(name);
+  std::any tmp = visit(test_array[0]);
+  if (tmp.type() == typeid(std::pair<std::string, bool>)) {
+    std::string name = std::any_cast<std::pair<std::string, bool>>(tmp).first;
+    if (name == "None") {
+      return name;
+    }
+    if (test_array.size() == 1) {
+      return Scope::GetValue(name);
+    } else {
+      std::any val = visit(test_array[1]);
+      Scope::SetValue(name, val);
+      return val;
+    }
   } else {
-    std::any val = visit(test_array[1]);
-    Scope::SetValue(name, val);
-    return val;
+    assert(test_array.size() == 1);
+    return tmp;
   }
 }
 

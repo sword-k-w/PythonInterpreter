@@ -3,6 +3,7 @@
 #include <int2048.h>
 
 std::any EvalVisitor::visitStmt(Python3Parser::StmtContext *ctx) {
+  std::cerr << "Stmt!\n";
   if (ctx->simple_stmt() != nullptr) {
     return visit(ctx->simple_stmt());
   } else {
@@ -11,10 +12,12 @@ std::any EvalVisitor::visitStmt(Python3Parser::StmtContext *ctx) {
 }
 
 std::any EvalVisitor::visitSimple_stmt(Python3Parser::Simple_stmtContext *ctx) {
+  std::cerr << "Simple_stmt!\n";
   return visit(ctx->small_stmt());
 }
 
 std::any EvalVisitor::visitSmall_stmt(Python3Parser::Small_stmtContext *ctx) {
+  std::cerr << "Small_stmt!\n";
   if (ctx->expr_stmt() != nullptr) {
     return visit(ctx->expr_stmt());
   } else {
@@ -33,10 +36,11 @@ std::any EvalVisitor::visitCompound_stmt(Python3Parser::Compound_stmtContext *ct
 }
 
 std::any EvalVisitor::visitExpr_stmt(Python3Parser::Expr_stmtContext *ctx) {
+  std::cerr << "Expr_stmt!\n";
   std::vector<Python3Parser::TestlistContext *> testlist_array = ctx->testlist();
   size_t size = testlist_array.size();
   if (size == 1) {
-    return kNothingStmt;
+    return visit(testlist_array[0]);
   }
 
   std::vector<std::any> val_array;
@@ -49,7 +53,7 @@ std::any EvalVisitor::visitExpr_stmt(Python3Parser::Expr_stmtContext *ctx) {
     }
   }
 
-  size_t first = (ctx->augassign() == nullptr ? 0 : 1);
+  int first = (ctx->augassign() == nullptr ? 0 : 1);
   size_t list_size = val_array.size();
   for (int i = static_cast<int>(size) - 2; i >= first; --i) {
     tmp_array = std::any_cast<std::vector<std::any>>(visit(testlist_array[i]));
