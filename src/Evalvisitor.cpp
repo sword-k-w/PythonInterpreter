@@ -1,4 +1,5 @@
 #include "Evalvisitor.h"
+#include <int2048.h>
 
 void TryRestore(std::any &val) {
   if (val.type() == typeid(std::pair<std::string, bool>)) {
@@ -24,4 +25,21 @@ double StringToDouble(const std::string &val) {
     --pos;
   }
   return res;
+}
+
+bool AnyToBool(std::any val) {
+  if (val.type() == typeid(std::pair<std::string, bool>)) {
+    std::pair<std::string, bool> tmp = std::any_cast<std::pair<std::string, bool> &>(val);
+    assert(tmp.second);
+    val = Scope::GetValue(tmp.first);
+  }
+  if (val.type() == typeid(std::string)) {
+    return std::any_cast<std::string &>(val) != "";
+  } else if (val.type() == typeid(bool)) {
+    return std::any_cast<bool &>(val);
+  } else if (val.type() == typeid(double)) {
+    return std::any_cast<double &>(val) ? true : false;
+  } else {
+    return !std::any_cast<int2048 &>(val).zero();
+  }
 }

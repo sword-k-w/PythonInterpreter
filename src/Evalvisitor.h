@@ -109,4 +109,6 @@ void TryRestore(std::any &);
 
 double StringToDouble(const std::string &);
 
+bool AnyToBool(std::any);
+
 #endif//PYTHON_INTERPRETER_EVALVISITOR_H

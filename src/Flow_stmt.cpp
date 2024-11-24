@@ -36,6 +36,6 @@ std::any EvalVisitor::visitReturn_stmt(Python3Parser::Return_stmtContext *ctx) {
     }
     return res;
   } else {
-    return kReturnVoidStmt;
+    return std::vector<std::any>({kReturnVoidStmt});
   }
 }

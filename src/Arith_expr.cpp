@@ -76,7 +76,7 @@ std::any EvalVisitor::visitTerm(Python3Parser::TermContext *ctx) {
     } else if (cur_op == "//") {
       std::any_cast<int2048 &>(val) /= std::any_cast<int2048 &>(val_prime);
     } else {
-      std::any_cast<int2048 &>(val) %= std::any_cast<int2048 &>(val_prime); //here
+      std::any_cast<int2048 &>(val) %= std::any_cast<int2048 &>(val_prime);
     }
   }
   return val;
@@ -168,15 +168,7 @@ std::any EvalVisitor::visitAtom_expr(Python3Parser::Atom_exprContext *ctx) {
         return std::string(std::any_cast<int2048 &>(val_array[0]));
       }
     } else if (name == "bool") {
-      if (val_array[0].type() == typeid(std::string)) {
-        return std::any_cast<std::string &>(val_array[0]) != "";
-      } else if (val_array[0].type() == typeid(bool)) {
-        return val_array[0];
-      } else if (val_array[0].type() == typeid(double)) {
-        return std::any_cast<double &>(val_array[0]) ? true : false;
-      } else {
-        return !std::any_cast<int2048 &>(val_array[0]).zero();
-      }
+      return AnyToBool(val_array[0]);
     } else {
       std::vector<std::any> res = std::any_cast<std::vector<std::any>>(visit(FunctionSet::Create(name, val_array)));
       Scope::DeleteScope();
