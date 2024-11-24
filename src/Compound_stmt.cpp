@@ -6,7 +6,7 @@ std::any EvalVisitor::visitIf_stmt(Python3Parser::If_stmtContext *ctx) {
   std::vector<Python3Parser::SuiteContext *> suite_array = ctx->suite();
   size_t size = test_array.size();
   for (size_t i = 0; i < size; ++i) {
-    if (std::any_cast<bool>(visit(test_array[i]))) {
+    if (AnyToBool(visit(test_array[i]))) {
       return visit(suite_array[i]);
     }
   }

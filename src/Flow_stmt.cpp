@@ -34,8 +34,12 @@ std::any EvalVisitor::visitReturn_stmt(Python3Parser::Return_stmtContext *ctx) {
         res.emplace_back(val);
       }
     }
-    return res;
+    if (res.size() == 1) {
+      return res[0];
+    } else {
+      return res;
+    }
   } else {
-    return std::vector<std::any>({kReturnVoidStmt});
+    return kReturnVoidStmt;
   }
 }

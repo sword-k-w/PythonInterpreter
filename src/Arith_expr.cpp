@@ -170,13 +170,9 @@ std::any EvalVisitor::visitAtom_expr(Python3Parser::Atom_exprContext *ctx) {
     } else if (name == "bool") {
       return AnyToBool(val_array[0]);
     } else {
-      std::vector<std::any> res = std::any_cast<std::vector<std::any>>(visit(FunctionSet::Create(name, val_array)));
+      std::any res = visit(FunctionSet::Create(name, val_array));
       Scope::DeleteScope();
-      if (res.size() == 1) {
-        return res[0];
-      } else {
-        return res;
-      }
+      return res;
     }
   }
 }
