@@ -3,7 +3,7 @@
 #include <int2048.h>
 
 std::any EvalVisitor::visitStmt(Python3Parser::StmtContext *ctx) {
-  std::cerr << "Stmt!\n";
+  // std::cerr << "Stmt!\n";
   if (ctx->simple_stmt() != nullptr) {
     return visit(ctx->simple_stmt());
   } else {
@@ -12,12 +12,12 @@ std::any EvalVisitor::visitStmt(Python3Parser::StmtContext *ctx) {
 }
 
 std::any EvalVisitor::visitSimple_stmt(Python3Parser::Simple_stmtContext *ctx) {
-  std::cerr << "Simple_stmt!\n";
+  // std::cerr << "Simple_stmt!\n";
   return visit(ctx->small_stmt());
 }
 
 std::any EvalVisitor::visitSmall_stmt(Python3Parser::Small_stmtContext *ctx) {
-  std::cerr << "Small_stmt!\n";
+  // std::cerr << "Small_stmt!\n";
   if (ctx->expr_stmt() != nullptr) {
     return visit(ctx->expr_stmt());
   } else {
@@ -26,7 +26,7 @@ std::any EvalVisitor::visitSmall_stmt(Python3Parser::Small_stmtContext *ctx) {
 }
 
 std::any EvalVisitor::visitCompound_stmt(Python3Parser::Compound_stmtContext *ctx) {
-  std::cerr << "Compound_stmt!\n";
+  // std::cerr << "Compound_stmt!\n";
   if (ctx->if_stmt() != nullptr) {
     return visit(ctx->if_stmt());
   } else if (ctx->while_stmt() != nullptr) {
@@ -37,7 +37,7 @@ std::any EvalVisitor::visitCompound_stmt(Python3Parser::Compound_stmtContext *ct
 }
 
 std::any EvalVisitor::visitExpr_stmt(Python3Parser::Expr_stmtContext *ctx) {
-  std::cerr << "Expr_stmt!\n";
+  // std::cerr << "Expr_stmt!\n";
   std::vector<Python3Parser::TestlistContext *> testlist_array = ctx->testlist();
   size_t size = testlist_array.size();
   if (size == 1) {

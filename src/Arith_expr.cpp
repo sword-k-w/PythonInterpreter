@@ -6,7 +6,7 @@
 #include <iostream>
 
 std::any EvalVisitor::visitArith_expr(Python3Parser::Arith_exprContext *ctx) {
-  std::cerr << "Arith_expr!\n";
+  // std::cerr << "Arith_expr!\n";
   std::vector<Python3Parser::TermContext *> term_array = ctx->term();
   std::any val = visit(term_array[0]);
   size_t size = term_array.size();
@@ -45,7 +45,7 @@ std::any EvalVisitor::visitAddorsub_op(Python3Parser::Addorsub_opContext *ctx) {
 }
 
 std::any EvalVisitor::visitTerm(Python3Parser::TermContext *ctx) {
-  std::cerr << "Term!\n";
+  // std::cerr << "Term!\n";
   std::vector<Python3Parser::FactorContext *> factor_array = ctx->factor();
   std::any val = visit(factor_array[0]);
   size_t size = factor_array.size();
@@ -83,7 +83,7 @@ std::any EvalVisitor::visitTerm(Python3Parser::TermContext *ctx) {
 }
 
 std::any EvalVisitor::visitFactor(Python3Parser::FactorContext *ctx) {
-  std::cerr << "Factor!\n";
+  // std::cerr << "Factor!\n";
   if (ctx->ADD() != nullptr) {
     std::any val = visit(ctx->factor());
     TryRestore(val);
@@ -110,7 +110,7 @@ std::any EvalVisitor::visitAugassign(Python3Parser::AugassignContext *ctx) {
 }
 
 std::any EvalVisitor::visitAtom_expr(Python3Parser::Atom_exprContext *ctx) {
-  std::cerr << "Atom_expr!\n";
+  // std::cerr << "Atom_expr!\n";
   if (ctx->trailer() == nullptr) {
     return visit(ctx->atom());
   } else {
@@ -178,7 +178,7 @@ std::any EvalVisitor::visitAtom_expr(Python3Parser::Atom_exprContext *ctx) {
 }
 
 std::any EvalVisitor::visitTrailer(Python3Parser::TrailerContext *ctx) {
-  std::cerr << "Trailer!\n";
+  // std::cerr << "Trailer!\n";
   if (ctx->arglist() != nullptr) {
     return visit(ctx->arglist());
   } else {
@@ -187,9 +187,9 @@ std::any EvalVisitor::visitTrailer(Python3Parser::TrailerContext *ctx) {
 }
 
 std::any EvalVisitor::visitAtom(Python3Parser::AtomContext *ctx) {
-  std::cerr << "Atom!\n";
+  // std::cerr << "Atom!\n";
   if (ctx->NAME() != nullptr) {
-    std::cerr << "#" << ctx->NAME()->getText() << '\n';
+    // std::cerr << "#" << ctx->NAME()->getText() << '\n';
     return std::make_pair(ctx->NAME()->getText(), true);
   } else if (ctx->NUMBER() != nullptr) {
     std::string val = ctx->NUMBER()->getText();
