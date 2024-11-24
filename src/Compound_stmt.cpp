@@ -22,7 +22,6 @@ std::any EvalVisitor::visitWhile_stmt(Python3Parser::While_stmtContext *ctx) {
   while (std::any_cast<bool>(visit(ctx->test()))) {
     std::any val = visit(ctx->suite());
     if (val.type() != typeid(std::string_view)) {
-      std::cerr << "????????????????????\n";
       return val;
     } else if (std::any_cast<std::string_view>(val) == kBreakStmt) {
       break;
@@ -37,12 +36,9 @@ std::any EvalVisitor::visitSuite(Python3Parser::SuiteContext *ctx) {
     return visit(ctx->simple_stmt());
   } else {
     std::vector<Python3Parser::StmtContext *> stmt_array = ctx->stmt();
-    std::cerr << stmt_array.size() << '\n';
     for (auto &stmt : stmt_array) {
-      std::cerr << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
       std::any val = visit(stmt);
       if (val.type() != typeid(std::string_view)) {
-        std::cerr << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
         return val;
       } else {
         std::string_view info = std::any_cast<std::string_view>(val);

@@ -20,7 +20,22 @@ std::any EvalVisitor::visitContinue_stmt(Python3Parser::Continue_stmtContext *ct
 
 std::any EvalVisitor::visitReturn_stmt(Python3Parser::Return_stmtContext *ctx) {
   if (ctx->testlist() != nullptr) {
-    return visit(ctx->testlist());
+    std::vector<std::any> val_array = std::any_cast<std::vector<std::any>>(visit(ctx->testlist()));
+    std::vector<std::any> res;
+    for (auto &val : val_array) {
+      if (val.type() == typeid(std::pair<std::string, bool>)) {
+        std::pair<std::string, bool> tmp = std::any_cast<std::pair<std::string, bool> &>(val);
+        if (tmp.second) {
+          std::cerr << "!!!!!!!!!!!!!!!!!!!!!\n";
+          res.emplace_back(Scope::GetValue(tmp.first));
+        } else {
+          res.emplace_back(val);
+        }
+      } else {
+        res.emplace_back(val);
+      }
+    }
+    return res;
   } else {
     return kReturnVoidStmt;
   }

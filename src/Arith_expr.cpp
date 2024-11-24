@@ -136,7 +136,6 @@ std::any EvalVisitor::visitAtom_expr(Python3Parser::Atom_exprContext *ctx) {
           std::cout << ' ';
         }
       }
-      std::cerr << "*********************************\n";
       return kNothingStmt;
     } else if (name == "int") {
       if (val_array[0].type() == typeid(std::string)) {
@@ -179,9 +178,13 @@ std::any EvalVisitor::visitAtom_expr(Python3Parser::Atom_exprContext *ctx) {
         return !std::any_cast<int2048 &>(val_array[0]).zero();
       }
     } else {
-      std::any res = visit(FunctionSet::Create(name, val_array));
+      std::vector<std::any> res = std::any_cast<std::vector<std::any>>(visit(FunctionSet::Create(name, val_array)));
       Scope::DeleteScope();
-      return res;
+      if (res.size() == 1) {
+        return res[0];
+      } else {
+        return res;
+      }
     }
   }
 }
