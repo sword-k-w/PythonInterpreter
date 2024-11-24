@@ -26,12 +26,13 @@ std::any EvalVisitor::visitSmall_stmt(Python3Parser::Small_stmtContext *ctx) {
 }
 
 std::any EvalVisitor::visitCompound_stmt(Python3Parser::Compound_stmtContext *ctx) {
+  std::cerr << "Compound_stmt!\n";
   if (ctx->if_stmt() != nullptr) {
-    return ctx->if_stmt();
+    return visit(ctx->if_stmt());
   } else if (ctx->while_stmt() != nullptr) {
-    return ctx->while_stmt();
+    return visit(ctx->while_stmt());
   } else {
-    return ctx->funcdef();
+    return visit(ctx->funcdef());
   }
 }
 
