@@ -14,7 +14,16 @@ std::any EvalVisitor::visitTestlist(Python3Parser::TestlistContext *ctx) {
   std::vector<std::any> res;
   std::vector<Python3Parser::TestContext *> test_array = ctx->test();
   for (auto &son : test_array) {
-    res.emplace_back(visit(son));
+    std::any val = visit(son);
+    if (val.type() == typeid(std::vector<std::any>)) {
+      std::vector<std::any> val_array = std::any_cast<std::vector<std::any> &>(val);
+      for (auto &x : val_array) {
+        assert(x.type() != typeid(std::vector<std::any>));
+        res.emplace_back(x);
+      }
+    } else {
+      res.emplace_back(val);
+    }
   }
   return res;
 }
