@@ -90,57 +90,61 @@ std::any EvalVisitor::visitComparison(Python3Parser::ComparisonContext *ctx) {
     std::string cur_op = std::any_cast<std::string>(visit(op_array[i - 1]));
     if (cur_op == "<") {
       if (val.type() == typeid(std::string)) {
+        assert(nxt.type() == typeid(std::string));
         if (std::any_cast<std::string &>(val) >= std::any_cast<std::string &>(nxt)) {
           return false;
         }
-      } else if (val.type() == typeid(double)) {
-        if (std::any_cast<double &>(val) >= std::any_cast<double &>(nxt)) {
+      } else if (val.type() == typeid(double) || nxt.type() == typeid(double)) {
+        if (AnyToFloat(val) >= AnyToFloat(nxt)) {
           return false;
         }
       } else {
-        if (std::any_cast<int2048 &>(val) >= std::any_cast<int2048 &>(nxt)) {
+        if (AnyToInt(val) >= AnyToInt(nxt)) {
           return false;
         }
       }
     } else if (cur_op == ">") {
       if (val.type() == typeid(std::string)) {
+        assert(nxt.type() == typeid(std::string));
         if (std::any_cast<std::string &>(val) <= std::any_cast<std::string &>(nxt)) {
           return false;
         }
-      } else if (val.type() == typeid(double)) {
-        if (std::any_cast<double &>(val) <= std::any_cast<double &>(nxt)) {
+      } else if (val.type() == typeid(double) || nxt.type() == typeid(double)) {
+        if (AnyToFloat(val) <= AnyToFloat(nxt)) {
           return false;
         }
       } else {
-        if (std::any_cast<int2048 &>(val) <= std::any_cast<int2048 &>(nxt)) {
+        if (AnyToInt(val) <= AnyToInt(nxt)) {
           return false;
         }
       }
     } else if (cur_op == ">=") {
       if (val.type() == typeid(std::string)) {
+        assert(nxt.type() == typeid(std::string));
         if (std::any_cast<std::string &>(val) < std::any_cast<std::string &>(nxt)) {
           return false;
         }
-      } else if (val.type() == typeid(double)) {
-        if (std::any_cast<double &>(val) < std::any_cast<double &>(nxt)) {
+      } else if (val.type() == typeid(double) || nxt.type() == typeid(double)) {
+        if (AnyToFloat(val) < AnyToFloat(nxt)) {
           return false;
         }
       } else {
-        if (std::any_cast<int2048 &>(val) < std::any_cast<int2048 &>(nxt)) {
+        if (AnyToInt(val) < AnyToInt(nxt)) {
           return false;
         }
       }
     } else if (cur_op == "<=") {
       if (val.type() == typeid(std::string)) {
+        assert(nxt.type() == typeid(std::string));
         if (std::any_cast<std::string &>(val) > std::any_cast<std::string &>(nxt)) {
           return false;
         }
-      } else if (val.type() == typeid(double)) {
-        if (std::any_cast<double &>(val) > std::any_cast<double &>(nxt)) {
+      } else if (val.type() == typeid(double) || nxt.type() == typeid(double)) {
+        if (AnyToFloat(val) > AnyToFloat(nxt)) {
           return false;
         }
       } else {
-        if (std::any_cast<int2048 &>(val) > std::any_cast<int2048 &>(nxt)) {
+        if (AnyToInt(val) > AnyToInt(nxt)) {
           return false;
         }
       }
@@ -153,19 +157,19 @@ std::any EvalVisitor::visitComparison(Python3Parser::ComparisonContext *ctx) {
       }
       if (cur_op == "==") {
         if (val.type() == typeid(std::string)) {
-          return std::any_cast<std::string &>(val) == std::any_cast<std::string &>(nxt);
+          return std::any_cast<std::string &>(val) == AnyToString(nxt);
         } else if (val.type() == typeid(double) || nxt.type() == typeid(double)) {
-          return std::any_cast<double &>(val) == std::any_cast<double &>(nxt);
+          return AnyToFloat(val) == AnyToFloat(nxt);
         } else {
-          return std::any_cast<int2048 &>(val) == std::any_cast<int2048 &>(nxt);
+          return AnyToInt(val) == AnyToInt(nxt);
         }
       } else {
         if (val.type() == typeid(std::string)) {
-          return std::any_cast<std::string &>(val) != std::any_cast<std::string &>(nxt);
+          return std::any_cast<std::string &>(val) != AnyToString(nxt);
         } else if (val.type() == typeid(double) || nxt.type() == typeid(double)) {
-          return std::any_cast<double &>(val) != std::any_cast<double &>(nxt);
+          return AnyToFloat(val) != AnyToFloat(nxt);
         } else {
-          return std::any_cast<int2048 &>(val) != std::any_cast<int2048 &>(nxt);
+          return AnyToInt(val) != AnyToInt(nxt);
         }
       }
     }

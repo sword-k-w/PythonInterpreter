@@ -138,25 +138,9 @@ std::any EvalVisitor::visitAtom_expr(Python3Parser::Atom_exprContext *ctx) {
       }
       return kNothingStmt;
     } else if (name == "int") {
-      if (val_array[0].type() == typeid(std::string)) {
-        return int2048(std::any_cast<std::string &>(val_array[0]));
-      } else if (val_array[0].type() == typeid(bool)) {
-        return int2048(std::any_cast<bool &>(val_array[0]) ? 1ll : 0ll);
-      } else if (val_array[0].type() == typeid(double)) {
-        return int2048(std::any_cast<double &>(val_array[0]));
-      } else {
-        return val_array[0];
-      }
+      return AnyToInt(val_array[0]);
     } else if (name == "float") {
-      if (val_array[0].type() == typeid(std::string)) {
-        return StringToDouble(std::any_cast<std::string &>(val_array[0]));
-      } else if (val_array[0].type() == typeid(bool)) {
-        return std::any_cast<bool &>(val_array[0]) ? 1.0 : 0.0;
-      } else if (val_array[0].type() == typeid(double)) {
-        return val_array[0];
-      } else {
-        return double(std::any_cast<int2048 &>(val_array[0]));
-      }
+      return AnyToFloat(val_array[0]);
     } else if (name == "str") {
       return AnyToString(val_array[0]);
     } else if (name == "bool") {

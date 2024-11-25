@@ -4,6 +4,7 @@
 
 
 #include <Scope.h>
+#include <int2048.h>
 
 #include "Python3ParserBaseVisitor.h"
 
@@ -112,5 +113,9 @@ double StringToDouble(const std::string &);
 bool AnyToBool(std::any);
 
 std::string AnyToString(std::any);
+
+int2048 AnyToInt(std::any);
+
+double AnyToFloat(std::any);
 
 #endif//PYTHON_INTERPRETER_EVALVISITOR_H

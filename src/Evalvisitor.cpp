@@ -55,3 +55,27 @@ std::string AnyToString(std::any val) {
     return std::string(std::any_cast<int2048 &>(val));
   }
 }
+
+int2048 AnyToInt(std::any val) {
+  if (val.type() == typeid(std::string)) {
+    return int2048(std::any_cast<std::string &>(val));
+  } else if (val.type() == typeid(bool)) {
+    return int2048(std::any_cast<bool &>(val) ? 1ll : 0ll);
+  } else if (val.type() == typeid(double)) {
+    return int2048(std::any_cast<double &>(val));
+  } else {
+    return std::any_cast<int2048 &>(val);
+  }
+}
+
+double AnyToFloat(std::any val) {
+  if (val.type() == typeid(std::string)) {
+    return StringToDouble(std::any_cast<std::string &>(val));
+  } else if (val.type() == typeid(bool)) {
+    return std::any_cast<bool &>(val) ? 1.0 : 0.0;
+  } else if (val.type() == typeid(double)) {
+    return std::any_cast<double &>(val);
+  } else {
+    return double(std::any_cast<int2048 &>(val));
+  }
+}
