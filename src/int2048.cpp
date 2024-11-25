@@ -37,6 +37,7 @@ int2048::int2048(double x) {
     if (x < 0) {
       negative_ = true;
       x = -x;
+      x += 1;
     }
     while (x >= 1) {
       double y = floor(x / kBase_);
