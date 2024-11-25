@@ -43,3 +43,15 @@ bool AnyToBool(std::any val) {
     return !std::any_cast<int2048 &>(val).zero();
   }
 }
+
+std::string AnyToString(std::any val) {
+  if (val.type() == typeid(std::string)) {
+    return std::any_cast<std::string>(val);
+  } else if (val.type() == typeid(bool)) {
+    return std::any_cast<bool &>(val) ? "True" : "False";
+  } else if (val.type() == typeid(double)) {
+    return std::to_string(std::any_cast<double &>(val));
+  } else {
+    return std::string(std::any_cast<int2048 &>(val));
+  }
+}

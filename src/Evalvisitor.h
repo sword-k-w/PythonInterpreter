@@ -101,7 +101,7 @@ class EvalVisitor : public Python3ParserBaseVisitor {
 
   // -------------------------------------- Format_string
 
-  // std::any visitFormat_string(Python3Parser::Format_stringContext *) override;
+  std::any visitFormat_string(Python3Parser::Format_stringContext *) override;
 };
 
 
@@ -110,5 +110,7 @@ void TryRestore(std::any &);
 double StringToDouble(const std::string &);
 
 bool AnyToBool(std::any);
+
+std::string AnyToString(std::any);
 
 #endif//PYTHON_INTERPRETER_EVALVISITOR_H
