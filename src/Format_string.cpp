@@ -9,7 +9,7 @@ std::any EvalVisitor::visitFormat_string(Python3Parser::Format_stringContext *ct
     if (tmp == "{") {
       ++i;
       std::vector<std::any> val = std::any_cast<std::vector<std::any>>(visit(children_array[i]));
-      assert(val.size() == 1);
+      TryRestore(val[0]);
       res += AnyToString(val[0]);
       ++i;
     } else {
