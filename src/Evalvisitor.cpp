@@ -13,8 +13,13 @@ void TryRestore(std::any &val) {
 double StringToDouble(const std::string &val) {
   size_t size = val.size();
   double res = 0;
-  MyAssert(val[0] != '-');
-  for (size_t i = 0; i < size; ++i) {
+  int w = 1;
+  size_t first = 0;
+  if (val[0] == '-') {
+    ++first;
+    w = -1;
+  }
+  for (size_t i = first; i < size; ++i) {
     if (val[i] == '.') {
       continue;
     }
@@ -25,7 +30,7 @@ double StringToDouble(const std::string &val) {
     res /= 10;
     --pos;
   }
-  return res;
+  return res * w;
 }
 
 bool AnyToBool(std::any val) {
