@@ -29,16 +29,17 @@ int2048::int2048(long long x) {
 }
 
 int2048::int2048(double x) {
+  num_.clear();
+  negative_ = false;
   if (fabs(x) < 1e-6) {
     num_ = {0};
-    negative_ = false;
   } else {
     if (x < 0) {
       negative_ = true;
       x = -x;
     }
     while (x >= 1) {
-      double y = x / kBase_;
+      double y = floor(x / kBase_);
       int val = x - y * kBase_;
       assert(val >= 0 && val < kBase_);
       num_.emplace_back(val);
