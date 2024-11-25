@@ -40,6 +40,7 @@ bool AnyToBool(std::any val) {
   } else if (val.type() == typeid(double)) {
     return std::any_cast<double &>(val) ? true : false;
   } else {
+    assert(val.type() == typeid(int2048));
     return !std::any_cast<int2048 &>(val).zero();
   }
 }
@@ -52,6 +53,7 @@ std::string AnyToString(std::any val) {
   } else if (val.type() == typeid(double)) {
     return std::to_string(std::any_cast<double &>(val));
   } else {
+    assert(val.type() == typeid(int2048));
     return std::string(std::any_cast<int2048 &>(val));
   }
 }
@@ -64,6 +66,7 @@ int2048 AnyToInt(std::any val) {
   } else if (val.type() == typeid(double)) {
     return int2048(std::any_cast<double &>(val));
   } else {
+    assert(val.type() == typeid(int2048));
     return std::any_cast<int2048 &>(val);
   }
 }
@@ -76,6 +79,7 @@ double AnyToFloat(std::any val) {
   } else if (val.type() == typeid(double)) {
     return std::any_cast<double &>(val);
   } else {
+    assert(val.type() == typeid(int2048));
     return double(std::any_cast<int2048 &>(val));
   }
 }
