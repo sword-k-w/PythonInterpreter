@@ -1,5 +1,6 @@
 #include <Scope.h>
 #include <cassert>
+#include <Evalvisitor.h>
 
 std::map<std::string, std::any> Scope::global_;
 std::stack<std::map<std::string, std::any>> Scope::local_;
@@ -33,6 +34,6 @@ void Scope::CreatScope() {
 }
 
 void Scope::DeleteScope() {
-  assert(!local_.empty());
+  MyAssert(!local_.empty());
   local_.pop();
 }

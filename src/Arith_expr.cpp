@@ -135,7 +135,7 @@ std::any EvalVisitor::visitAtom_expr(Python3Parser::Atom_exprContext *ctx) {
         } else if (val_array[i].type() == typeid(double)) {
           std::cout << std::fixed << std::setprecision(6) << std::any_cast<double &>(val_array[i]);
         } else {
-          assert(val_array[i].type() == typeid(int2048));
+          MyAssert(val_array[i].type() == typeid(int2048));
           std::cout << std::any_cast<int2048 &>(val_array[i]);
         }
         if (i == size - 1) {

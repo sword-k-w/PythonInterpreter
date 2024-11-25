@@ -18,7 +18,7 @@ std::any EvalVisitor::visitTestlist(Python3Parser::TestlistContext *ctx) {
     if (val.type() == typeid(std::vector<std::any>)) {
       std::vector<std::any> val_array = std::any_cast<std::vector<std::any> &>(val);
       for (auto &x : val_array) {
-        assert(x.type() != typeid(std::vector<std::any>));
+        MyAssert(x.type() != typeid(std::vector<std::any>));
         res.emplace_back(x);
       }
     } else {
@@ -99,7 +99,7 @@ std::any EvalVisitor::visitComparison(Python3Parser::ComparisonContext *ctx) {
     std::string cur_op = std::any_cast<std::string>(visit(op_array[i - 1]));
     if (cur_op == "<") {
       if (val.type() == typeid(std::string)) {
-        assert(nxt.type() == typeid(std::string));
+        MyAssert(nxt.type() == typeid(std::string));
         if (std::any_cast<std::string &>(val) >= std::any_cast<std::string &>(nxt)) {
           return false;
         }
@@ -114,7 +114,7 @@ std::any EvalVisitor::visitComparison(Python3Parser::ComparisonContext *ctx) {
       }
     } else if (cur_op == ">") {
       if (val.type() == typeid(std::string)) {
-        assert(nxt.type() == typeid(std::string));
+        MyAssert(nxt.type() == typeid(std::string));
         if (std::any_cast<std::string &>(val) <= std::any_cast<std::string &>(nxt)) {
           return false;
         }
@@ -129,7 +129,7 @@ std::any EvalVisitor::visitComparison(Python3Parser::ComparisonContext *ctx) {
       }
     } else if (cur_op == ">=") {
       if (val.type() == typeid(std::string)) {
-        assert(nxt.type() == typeid(std::string));
+        MyAssert(nxt.type() == typeid(std::string));
         if (std::any_cast<std::string &>(val) < std::any_cast<std::string &>(nxt)) {
           return false;
         }
@@ -144,7 +144,7 @@ std::any EvalVisitor::visitComparison(Python3Parser::ComparisonContext *ctx) {
       }
     } else if (cur_op == "<=") {
       if (val.type() == typeid(std::string)) {
-        assert(nxt.type() == typeid(std::string));
+        MyAssert(nxt.type() == typeid(std::string));
         if (std::any_cast<std::string &>(val) > std::any_cast<std::string &>(nxt)) {
           return false;
         }

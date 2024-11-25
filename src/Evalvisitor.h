@@ -118,4 +118,6 @@ int2048 AnyToInt(std::any);
 
 double AnyToFloat(std::any);
 
+void MyAssert(bool);
+
 #endif//PYTHON_INTERPRETER_EVALVISITOR_H

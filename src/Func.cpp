@@ -63,7 +63,7 @@ std::any EvalVisitor::visitArgument(Python3Parser::ArgumentContext *ctx) {
       return val;
     }
   } else {
-    assert(test_array.size() == 1);
+    MyAssert(test_array.size() == 1);
     return tmp;
   }
 }

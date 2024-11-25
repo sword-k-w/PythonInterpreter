@@ -1,6 +1,7 @@
 #include "int2048.h"
 #include <cmath>
 #include <cassert>
+#include <Evalvisitor.h>
 
 int Polynomial::power_length;
 std::vector<int> Polynomial::bit_reversal;
@@ -41,7 +42,7 @@ int2048::int2048(double x) {
     while (x >= 1) {
       double y = floor(x / kBase_);
       int val = x - y * kBase_;
-      assert(val >= 0 && val < kBase_);
+      MyAssert(val >= 0 && val < kBase_);
       num_.emplace_back(val);
       x = y;
     }
