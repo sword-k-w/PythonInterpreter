@@ -55,16 +55,15 @@ std::any EvalVisitor::visitExpr_stmt(Python3Parser::Expr_stmtContext *ctx) {
     }
   }
 
-  int first = (ctx->augassign() == nullptr ? 0 : 1);
-
   size_t list_size = val_array.size();
-  for (int i = static_cast<int>(size) - 2; i >= first; --i) {
-    tmp_array = std::any_cast<std::vector<std::any>>(visit(testlist_array[i]));
-    for (size_t j = 0; j < list_size; ++j) {
-      Scope::SetValue(std::any_cast<std::pair<std::string, bool> &>(tmp_array[j]).first, val_array[j]);
+  if (ctx->augassign() == nullptr) {
+    for (int i = static_cast<int>(size) - 2; i >= 0; --i) {
+      tmp_array = std::any_cast<std::vector<std::any>>(visit(testlist_array[i]));
+      for (size_t j = 0; j < list_size; ++j) {
+        Scope::SetValue(std::any_cast<std::pair<std::string, bool> &>(tmp_array[j]).first, val_array[j]);
+      }
     }
-  }
-  if (first) {
+  } else {
     tmp_array = std::any_cast<std::vector<std::any>>(visit(testlist_array[0]));
     std::string op = std::any_cast<std::string>(visit(ctx->augassign()));
     for (size_t j = 0; j < list_size; ++j) {
