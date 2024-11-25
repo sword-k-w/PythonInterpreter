@@ -76,12 +76,14 @@ std::any EvalVisitor::visitExpr_stmt(Python3Parser::Expr_stmtContext *ctx) {
         } else if (val.type() == typeid(double)) {
           std::any_cast<double &>(val) += std::any_cast<double &>(val_array[j]);
         } else {
+          val = AnyToInt(val);
           std::any_cast<int2048 &>(val) += std::any_cast<int2048 &>(val_array[j]);
         }
       } else if (op == "-=") {
         if (val.type() == typeid(double)) {
           std::any_cast<double &>(val) -= std::any_cast<double &>(val_array[j]);
         } else {
+          val = AnyToInt(val);
           std::any_cast<int2048 &>(val) -= std::any_cast<int2048 &>(val_array[j]);
         }
       } else if (op == "*=") {
@@ -96,13 +98,17 @@ std::any EvalVisitor::visitExpr_stmt(Python3Parser::Expr_stmtContext *ctx) {
         } else if (val.type() == typeid(double)) {
           std::any_cast<double &>(val) *= std::any_cast<double &>(val_array[j]);
         } else {
+          val = AnyToInt(val);
           std::any_cast<int2048 &>(val) *= std::any_cast<int2048 &>(val_array[j]);
         }
       } else if (op == "/=") {
+        val = AnyToFloat(val);
         std::any_cast<double &>(val) /= std::any_cast<double &>(val_array[j]);
       } else if (op == "//=") {
+        val = AnyToInt(val);
         std::any_cast<int2048 &>(val) /= std::any_cast<int2048 &>(val_array[j]);
       } else {
+        val = AnyToInt(val);
         std::any_cast<int2048 &>(val) %= std::any_cast<int2048 &>(val_array[j]);
       }
 

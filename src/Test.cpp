@@ -28,13 +28,13 @@ std::any EvalVisitor::visitOr_test(Python3Parser::Or_testContext *ctx) {
     return val;
   }
   TryRestore(val);
-  if (std::any_cast<bool &>(val)) {
+  if (AnyToBool(val)) {
     return true;
   }
   for (size_t i = 1; i < size; ++i) {
     val = visit(and_array[i]);
     TryRestore(val);
-    if (std::any_cast<bool &>(val)) {
+    if (AnyToBool(val)) {
       return true;
     }
   }
@@ -50,13 +50,13 @@ std::any EvalVisitor::visitAnd_test(Python3Parser::And_testContext *ctx) {
     return val;
   }
   TryRestore(val);
-  if (!std::any_cast<bool &>(val)) {
+  if (!AnyToBool(val)) {
     return false;
   }
   for (size_t i = 0; i < size; ++i) {
     val = visit(not_array[i]);
     TryRestore(val);
-    if (!std::any_cast<bool &>(val)) {
+    if (!AnyToBool(val)) {
       return false;
     }
   }
@@ -68,7 +68,7 @@ std::any EvalVisitor::visitNot_test(Python3Parser::Not_testContext *ctx) {
   if (ctx->NOT() != nullptr) {
     std::any val = visit(ctx->not_test());
     TryRestore(val);
-    return !std::any_cast<bool &>(val);
+    return !AnyToBool(val);
   } else {
     return visit(ctx->comparison());
   }

@@ -15,9 +15,6 @@ std::any EvalVisitor::visitArith_expr(Python3Parser::Arith_exprContext *ctx) {
   }
   std::vector<Python3Parser::Addorsub_opContext *> op_array = ctx->addorsub_op();
   TryRestore(val);
-  if (val.type() == typeid(bool)) {
-    val = std::any_cast<int2048>(val);
-  }
   for (size_t i = 1; i < size; ++i) {
     std::any val_prime = visit(term_array[i]);
     TryRestore(val_prime);
@@ -25,15 +22,17 @@ std::any EvalVisitor::visitArith_expr(Python3Parser::Arith_exprContext *ctx) {
       if (val.type() == typeid(std::string)) {
         std::any_cast<std::string &>(val) += std::any_cast<std::string &>(val_prime);
       } else if (val.type() == typeid(double)) {
-        std::any_cast<double &>(val) += std::any_cast<double &>(val_prime);
+        std::any_cast<double &>(val) += AnyToFloat(val_prime);
       } else {
-        std::any_cast<int2048 &>(val) += std::any_cast<int2048 &>(val_prime);
+        val = AnyToInt(val);
+        std::any_cast<int2048 &>(val) += AnyToInt(val_prime);
       }
     } else {
       if (val.type() == typeid(double)) {
-        std::any_cast<double &>(val) -= std::any_cast<double &>(val_prime);
+        std::any_cast<double &>(val) -= AnyToFloat(val_prime);
       } else {
-        std::any_cast<int2048 &>(val) -= std::any_cast<int2048 &>(val_prime);
+        val = AnyToInt(val);
+        std::any_cast<int2048 &>(val) -= AnyToInt(val_prime);
       }
     }
   }
@@ -61,22 +60,30 @@ std::any EvalVisitor::visitTerm(Python3Parser::TermContext *ctx) {
     if (cur_op == "*") {
       if (val.type() == typeid(std::string)) {
         std::string res = "", &cur = std::any_cast<std::string &>(val);
-        int time = std::any_cast<int>(val_prime);
-        while (time--) {
+        int2048 time = AnyToInt(val_prime);
+        while (true) {
+          --time;
           res += cur;
+          if (time.zero()) {
+            break;
+          }
         }
         val = res;
       } else if (val.type() == typeid(double)) {
-        std::any_cast<double &>(val) *= std::any_cast<double &>(val_prime);
+        std::any_cast<double &>(val) *= AnyToFloat(val_prime);
       } else {
-        std::any_cast<int2048 &>(val) *= std::any_cast<int2048 &>(val_prime);
+        val = AnyToInt(val);
+        std::any_cast<int2048 &>(val) *= AnyToInt(val_prime);
       }
     } else if (cur_op == "/") {
-      std::any_cast<double &>(val) /= std::any_cast<double &>(val_prime);
+      val = AnyToFloat(val);
+      std::any_cast<double &>(val) /= AnyToFloat(val_prime);
     } else if (cur_op == "//") {
-      std::any_cast<int2048 &>(val) /= std::any_cast<int2048 &>(val_prime);
+      val = AnyToInt(val);
+      std::any_cast<int2048 &>(val) /= AnyToInt(val_prime);
     } else {
-      std::any_cast<int2048 &>(val) %= std::any_cast<int2048 &>(val_prime);
+      val = AnyToInt(val);
+      std::any_cast<int2048 &>(val) %= AnyToInt(val_prime);
     }
   }
   return val;
@@ -94,7 +101,7 @@ std::any EvalVisitor::visitFactor(Python3Parser::FactorContext *ctx) {
     if (val.type() == typeid(double)) {
       return -std::any_cast<double &>(val);
     } else {
-      return -std::any_cast<int2048 &>(val);
+      return -AnyToInt(val);
     }
   } else {
     return visit(ctx->atom_expr());
