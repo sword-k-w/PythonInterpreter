@@ -18,6 +18,9 @@ std::any EvalVisitor::visitContinue_stmt(Python3Parser::Continue_stmtContext *ct
   return kContinueStmt;
 }
 
+/**
+ * @return if "return", then return kReturnVoidStmt; if "return" a single value, then return std::any; otherwise, return std::vector<std::any>
+ */
 std::any EvalVisitor::visitReturn_stmt(Python3Parser::Return_stmtContext *ctx) {
   if (ctx->testlist() != nullptr) {
     std::vector<std::any> val_array = std::any_cast<std::vector<std::any>>(visit(ctx->testlist()));

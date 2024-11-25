@@ -21,13 +21,11 @@ std::any EvalVisitor::visitWhile_stmt(Python3Parser::While_stmtContext *ctx) {
   // std::cerr << "While_stmt!\n";
   while (AnyToBool(visit(ctx->test()))) {
     std::any val = visit(ctx->suite());
-    // std::cerr << "$$$$$$$$$$$\n";
     if (val.type() != typeid(std::string_view)) {
       return val;
     } else if (std::any_cast<std::string_view>(val) == kBreakStmt) {
       break;
     } else if (std::any_cast<std::string_view>(val) == kReturnVoidStmt) {
-      std::cerr << "~~~~~~~~~~~~~~~~~~~~~~~~\n";
       return kReturnVoidStmt;
     }
   }

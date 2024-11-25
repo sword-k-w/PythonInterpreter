@@ -6,6 +6,9 @@ std::any EvalVisitor::visitTest(Python3Parser::TestContext *ctx) {
   return visit(ctx->or_test());
 }
 
+/**
+ * @return It's a tuple. return std::vector<std::any>
+ */
 std::any EvalVisitor::visitTestlist(Python3Parser::TestlistContext *ctx) {
   // std::cerr << "Testlist!\n";
   std::vector<std::any> res;
@@ -25,17 +28,17 @@ std::any EvalVisitor::visitOr_test(Python3Parser::Or_testContext *ctx) {
     return val;
   }
   TryRestore(val);
-  if (!std::any_cast<bool &>(val)) {
-    return false;
+  if (std::any_cast<bool &>(val)) {
+    return true;
   }
   for (size_t i = 1; i < size; ++i) {
     val = visit(and_array[i]);
     TryRestore(val);
-    if (!std::any_cast<bool &>(val)) {
-      return false;
+    if (std::any_cast<bool &>(val)) {
+      return true;
     }
   }
-  return true;
+  return false;
 }
 
 std::any EvalVisitor::visitAnd_test(Python3Parser::And_testContext *ctx) {
