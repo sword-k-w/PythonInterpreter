@@ -72,43 +72,46 @@ std::any EvalVisitor::visitExpr_stmt(Python3Parser::Expr_stmtContext *ctx) {
       if (op == "+=") {
         if (val.type() == typeid(std::string)) {
           std::any_cast<std::string &>(val) += std::any_cast<std::string &>(val_array[j]);
-        } else if (val.type() == typeid(double)) {
-          std::any_cast<double &>(val) += std::any_cast<double &>(val_array[j]);
+        } else if (val.type() == typeid(double) || val_array[j].type() == typeid(double)) {
+          val = AnyToFloat(val);
+          std::any_cast<double &>(val) += AnyToFloat(val_array[j]);
         } else {
           val = AnyToInt(val);
-          std::any_cast<int2048 &>(val) += std::any_cast<int2048 &>(val_array[j]);
+          std::any_cast<int2048 &>(val) += AnyToInt(val_array[j]);
         }
       } else if (op == "-=") {
-        if (val.type() == typeid(double)) {
-          std::any_cast<double &>(val) -= std::any_cast<double &>(val_array[j]);
+        if (val.type() == typeid(double) || val_array[j].type() == typeid(double)) {
+          val = AnyToFloat(val);
+          std::any_cast<double &>(val) -= AnyToFloat(val_array[j]);
         } else {
           val = AnyToInt(val);
-          std::any_cast<int2048 &>(val) -= std::any_cast<int2048 &>(val_array[j]);
+          std::any_cast<int2048 &>(val) -= AnyToInt(val_array[j]);
         }
       } else if (op == "*=") {
         if (val.type() == typeid(std::string)) {
           std::string res = "", &cur = std::any_cast<std::string &>(val);
-          int2048 time = std::any_cast<int2048 &>(val_array[j]);
+          int2048 time = AnyToInt(val_array[j]);
           while (!time.zero()) {
             res += cur;
             --time;
           }
           val = res;
-        } else if (val.type() == typeid(double)) {
-          std::any_cast<double &>(val) *= std::any_cast<double &>(val_array[j]);
+        } else if (val.type() == typeid(double) || val_array[j].type() == typeid(double)) {
+          val = AnyToFloat(val);
+          std::any_cast<double &>(val) *= AnyToFloat(val_array[j]);
         } else {
           val = AnyToInt(val);
-          std::any_cast<int2048 &>(val) *= std::any_cast<int2048 &>(val_array[j]);
+          std::any_cast<int2048 &>(val) *= AnyToInt(val_array[j]);
         }
       } else if (op == "/=") {
         val = AnyToFloat(val);
-        std::any_cast<double &>(val) /= std::any_cast<double &>(val_array[j]);
+        std::any_cast<double &>(val) /= AnyToFloat(val_array[j]);
       } else if (op == "//=") {
         val = AnyToInt(val);
-        std::any_cast<int2048 &>(val) /= std::any_cast<int2048 &>(val_array[j]);
+        std::any_cast<int2048 &>(val) /= AnyToInt(val_array[j]);
       } else {
         val = AnyToInt(val);
-        std::any_cast<int2048 &>(val) %= std::any_cast<int2048 &>(val_array[j]);
+        std::any_cast<int2048 &>(val) %= AnyToInt(val_array[j]);
       }
 
       Scope::SetValue(name, val);
