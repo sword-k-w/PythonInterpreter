@@ -50,9 +50,13 @@ std::any EvalVisitor::visitArgument(Python3Parser::ArgumentContext *ctx) {
   // std::cerr << "Argument!\n";
   std::vector<Python3Parser::TestContext *> test_array = ctx->test();
   if (test_array.size() == 1) {
-    return visit(test_array[0]);
+    std::any val = visit(test_array[0]);
+    TryRestore(val);
+    return val;
   } else {
-    return std::make_pair(visit(test_array[0]), visit(test_array[1]));
+    std::any val = visit(test_array[1]);
+    TryRestore(val);
+    return std::make_pair(visit(test_array[0]), val);
   }
 }
 
