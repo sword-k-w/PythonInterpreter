@@ -213,4 +213,3 @@ std::any EvalVisitor::visitAtom(Python3Parser::AtomContext *ctx) {
     return res;
   }
 }
-
