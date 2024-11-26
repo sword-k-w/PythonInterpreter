@@ -21,14 +21,16 @@ std::any EvalVisitor::visitArith_expr(Python3Parser::Arith_exprContext *ctx) {
     if (std::any_cast<std::string>(visit(op_array[i - 1])) == "+") {
       if (val.type() == typeid(std::string)) {
         std::any_cast<std::string &>(val) += std::any_cast<std::string &>(val_prime);
-      } else if (val.type() == typeid(double)) {
+      } else if (val.type() == typeid(double) || val_prime.type() == typeid(double)) {
+        val = AnyToFloat(val);
         std::any_cast<double &>(val) += AnyToFloat(val_prime);
       } else {
         val = AnyToInt(val);
         std::any_cast<int2048 &>(val) += AnyToInt(val_prime);
       }
     } else {
-      if (val.type() == typeid(double)) {
+      if (val.type() == typeid(double) || val_prime.type() == typeid(double)) {
+        val = AnyToFloat(val);
         std::any_cast<double &>(val) -= AnyToFloat(val_prime);
       } else {
         val = AnyToInt(val);
@@ -69,7 +71,8 @@ std::any EvalVisitor::visitTerm(Python3Parser::TermContext *ctx) {
           }
         }
         val = res;
-      } else if (val.type() == typeid(double)) {
+      } else if (val.type() == typeid(double) || val_prime.type() == typeid(double)) {
+        val = AnyToFloat(val);
         std::any_cast<double &>(val) *= AnyToFloat(val_prime);
       } else {
         val = AnyToInt(val);
