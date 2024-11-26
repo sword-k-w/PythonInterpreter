@@ -82,9 +82,10 @@ int2048::~int2048() {
 
 int2048::operator double() const {
   double res = 0;
-  for (auto &x : num_) {
+  int size = static_cast<int>(num_.size());
+  for (int i = size - 1; i >= 0; --i) {
     res *= kBase_;
-    res += x;
+    res += num_[i];
   }
   if (negative_) {
     res = -res;
