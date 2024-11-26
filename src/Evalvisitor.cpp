@@ -30,7 +30,7 @@ double StringToDouble(const std::string &val) {
     res /= 10;
     --pos;
   }
-  return res * w;
+  return res ? res * w : res;
 }
 
 bool AnyToBool(std::any val) {
