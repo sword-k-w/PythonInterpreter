@@ -1,5 +1,6 @@
 #include "Evalvisitor.h"
 #include <int2048.h>
+#include <iomanip>
 
 void TryRestore(std::any &val) {
   if (val.type() == typeid(std::pair<std::string, bool>)) {
@@ -58,7 +59,7 @@ std::string AnyToString(std::any val) {
     return std::any_cast<bool &>(val) ? "True" : "False";
   } else if (val.type() == typeid(double)) {
     std::stringstream tmp;
-    tmp << std::any_cast<double &>(val);
+    tmp << std::fixed << std::setprecision(6) << std::any_cast<double &>(val);
     return tmp.str();
   } else {
     MyAssert(val.type() == typeid(int2048));
