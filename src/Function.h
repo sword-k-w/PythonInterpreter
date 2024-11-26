@@ -17,7 +17,7 @@ class FunctionSet {
 private:
   static std::map<std::string, Function> map;
 public:
-  static Python3Parser::SuiteContext *Create(const std::string &, const std::vector<std::any> &);
+  static Python3Parser::SuiteContext *Create(const std::string &, std::vector<std::any>);
   static void AddFunction(const std::string &, const Function &);
 };
 

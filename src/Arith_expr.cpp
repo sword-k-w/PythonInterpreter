@@ -129,6 +129,7 @@ std::any EvalVisitor::visitAtom_expr(Python3Parser::Atom_exprContext *ctx) {
     size_t size = val_array.size();
     if (name == "print") {
       for (size_t i = 0; i < size; ++i) {
+        TryRestore(val_array[i]);
         if (val_array[i].type() == typeid(std::pair<std::string, bool>)) {
           std::cout << "None";
         } else if (val_array[i].type() == typeid(std::string)) {
@@ -149,12 +150,16 @@ std::any EvalVisitor::visitAtom_expr(Python3Parser::Atom_exprContext *ctx) {
       }
       return kNothingStmt;
     } else if (name == "int") {
+      TryRestore(val_array[0]);
       return AnyToInt(val_array[0]);
     } else if (name == "float") {
+      TryRestore(val_array[0]);
       return AnyToFloat(val_array[0]);
     } else if (name == "str") {
+      TryRestore(val_array[0]);
       return AnyToString(val_array[0]);
     } else if (name == "bool") {
+      TryRestore(val_array[0]);
       return AnyToBool(val_array[0]);
     } else {
       std::any res = visit(FunctionSet::Create(name, val_array));

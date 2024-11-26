@@ -49,22 +49,10 @@ std::any EvalVisitor::visitArglist(Python3Parser::ArglistContext *ctx) {
 std::any EvalVisitor::visitArgument(Python3Parser::ArgumentContext *ctx) {
   // std::cerr << "Argument!\n";
   std::vector<Python3Parser::TestContext *> test_array = ctx->test();
-  std::any tmp = visit(test_array[0]);
-  if (tmp.type() == typeid(std::pair<std::string, bool>)) {
-    std::string name = std::any_cast<std::pair<std::string, bool>>(tmp).first;
-    if (name == "None") {
-      return tmp;
-    }
-    if (test_array.size() == 1) {
-      return Scope::GetValue(name);
-    } else {
-      std::any val = visit(test_array[1]);
-      Scope::SetValue(name, val);
-      return val;
-    }
+  if (test_array.size() == 1) {
+    return visit(test_array[0]);
   } else {
-    MyAssert(test_array.size() == 1);
-    return tmp;
+    return std::make_pair(visit(test_array[0]), visit(test_array[1]));
   }
 }
 
