@@ -47,7 +47,7 @@ std::any EvalVisitor::visitExpr_stmt(Python3Parser::Expr_stmtContext *ctx) {
   std::vector<std::any> val_array;
   std::vector<std::any> tmp_array = std::any_cast<std::vector<std::any>>(visit(*testlist_array.rbegin()));
   for (auto &tmp : tmp_array) {
-    if (tmp.type() == typeid(std::pair<std::string, bool>)) {
+    if (tmp.type() == typeid(std::pair<std::string, bool>) && std::any_cast<std::pair<std::string, bool> &>(tmp) != std::make_pair(std::string("None"), false)) {
       val_array.emplace_back(Scope::GetValue(std::any_cast<std::pair<std::string, bool> &>(tmp).first));
     } else {
       val_array.emplace_back(tmp);
@@ -55,12 +55,10 @@ std::any EvalVisitor::visitExpr_stmt(Python3Parser::Expr_stmtContext *ctx) {
   }
 
   size_t list_size = val_array.size();
-  std::cerr << list_size << '\n';
   if (ctx->augassign() == nullptr) {
     for (int i = static_cast<int>(size) - 2; i >= 0; --i) {
       tmp_array = std::any_cast<std::vector<std::any>>(visit(testlist_array[i]));
       for (size_t j = 0; j < list_size; ++j) {
-        std::cerr << std::any_cast<std::pair<std::string, bool> &>(tmp_array[j]).first << '\n';
         Scope::SetValue(std::any_cast<std::pair<std::string, bool> &>(tmp_array[j]).first, val_array[j]);
       }
     }

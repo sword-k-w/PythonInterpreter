@@ -53,7 +53,7 @@ std::any EvalVisitor::visitArgument(Python3Parser::ArgumentContext *ctx) {
   if (tmp.type() == typeid(std::pair<std::string, bool>)) {
     std::string name = std::any_cast<std::pair<std::string, bool>>(tmp).first;
     if (name == "None") {
-      return name;
+      return tmp;
     }
     if (test_array.size() == 1) {
       return Scope::GetValue(name);
