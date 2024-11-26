@@ -57,7 +57,9 @@ std::string AnyToString(std::any val) {
   } else if (val.type() == typeid(bool)) {
     return std::any_cast<bool &>(val) ? "True" : "False";
   } else if (val.type() == typeid(double)) {
-    return std::to_string(std::any_cast<double &>(val));
+    std::stringstream tmp;
+    tmp << std::any_cast<double &>(val);
+    return tmp.str();
   } else {
     MyAssert(val.type() == typeid(int2048));
     return std::string(std::any_cast<int2048 &>(val));
