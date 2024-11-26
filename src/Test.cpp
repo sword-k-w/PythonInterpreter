@@ -164,6 +164,9 @@ std::any EvalVisitor::visitComparison(Python3Parser::ComparisonContext *ctx) {
       if (val.type() != typeid(std::string) && nxt.type() == typeid(std::string)) {
         return false;
       }
+      if (val.type() == typeid(std::pair<std::string, bool>) || nxt.type() == typeid(std::pair<std::string, bool>)) {
+        return bool((cur_op != "==") ^ (val.type() == nxt.type()));
+      }
       if (cur_op == "==") {
         if (val.type() == typeid(std::string)) {
           return std::any_cast<std::string &>(val) == AnyToString(nxt);
