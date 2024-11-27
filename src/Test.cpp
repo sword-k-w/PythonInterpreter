@@ -165,6 +165,7 @@ std::any EvalVisitor::visitComparison(Python3Parser::ComparisonContext *ctx) {
         if (cur_op == "!=") {
           return false;
         }
+        val = nxt;
         continue;
       }
       if (val.type() == typeid(std::string) && nxt.type() != typeid(std::string)) {
