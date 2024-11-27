@@ -13,7 +13,7 @@ include_directories(
 add_subdirectory(${PROJECT_SOURCE_DIR}/generated)
 ### YOU CAN"T MODIFY THE CODE ABOVE
 
-add_definitions(-Dsword)
+# add_definitions(-Dsword)
 
 file(GLOB_RECURSE main_src src/*.cpp)
 
