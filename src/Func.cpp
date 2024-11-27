@@ -41,7 +41,15 @@ std::any EvalVisitor::visitArglist(Python3Parser::ArglistContext *ctx) {
   std::vector<Python3Parser::ArgumentContext *> arg_array = ctx->argument();
   std::vector<std::any> res;
   for (auto &arg : arg_array) {
-    res.emplace_back(visit(arg));
+    std::any val = visit(arg);
+    if (val.type() == typeid(std::vector<std::any>)) {
+      std::vector<std::any> tmp = std::any_cast<std::vector<std::any> &>(val);
+      for (auto &x : tmp) {
+        res.emplace_back(x);
+      }
+    } else {
+      res.emplace_back(val);
+    }
   }
   return res;
 }
