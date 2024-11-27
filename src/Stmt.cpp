@@ -88,12 +88,24 @@ std::any EvalVisitor::visitExpr_stmt(Python3Parser::Expr_stmtContext *ctx) {
           std::any_cast<int2048 &>(val) -= AnyToInt(val_array[j]);
         }
       } else if (op == "*=") {
-        if (val.type() == typeid(std::string)) {
+        if (val.type() == typeid(std::string) && val_array[j].type() != typeid(std::string)) {
           std::string res = "", &cur = std::any_cast<std::string &>(val);
           int2048 time = AnyToInt(val_array[j]);
-          while (!time.zero()) {
-            res += cur;
-            --time;
+          if (!time.zero() && !time.negative()) {
+            while (!time.zero()) {
+              res += cur;
+              --time;
+            }
+          }
+          val = res;
+        } else if (val_array[j].type() == typeid(std::string) && val.type() != typeid(std::string)) {
+          std::string res = "", &cur = std::any_cast<std::string &>(val_array[j]);
+          int2048 time = AnyToInt(val);
+          if (!time.zero() && !time.negative()) {
+            while (!time.zero()) {
+              res += cur;
+              --time;
+            }
           }
           val = res;
         } else if (val.type() == typeid(double) || val_array[j].type() == typeid(double)) {
