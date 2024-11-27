@@ -144,7 +144,23 @@ std::any EvalVisitor::visitAtom_expr(Python3Parser::Atom_exprContext *ctx) {
         if (val_array[i].type() == typeid(std::pair<std::string, bool>)) {
           std::cout << "None";
         } else if (val_array[i].type() == typeid(std::string)) {
-          std::cout << std::any_cast<std::string &>(val_array[i]);
+          std::string tmp = std::any_cast<std::string &>(val_array[i]);
+          size_t tmp_size = tmp.size();
+          for (size_t j = 0; j < tmp_size; ++j) {
+            if (tmp[j] == '\\') {
+              MyAssert(j + 1 < tmp_size);
+              ++j;
+              if (tmp[j] == 'n') {
+                std::cout << '\n';
+              } else if (tmp[j] == 't') {
+                std::cout << '\t';
+              } else {
+                std::cout << tmp[j];
+              }
+            } else {
+              std::cout << tmp[j];
+            }
+          }
         } else if (val_array[i].type() == typeid(bool)) {
           std::cout << (std::any_cast<bool &>(val_array[i]) ? "True" : "False");
         } else if (val_array[i].type() == typeid(double)) {
