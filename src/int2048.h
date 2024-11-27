@@ -33,6 +33,7 @@ public:
   void read(const std::string &);
   void print() const;
   bool zero() const;
+  bool negative() const;
 
   int2048 &add(const int2048 &);
   friend int2048 add(int2048, const int2048 &);

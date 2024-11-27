@@ -158,6 +158,10 @@ bool int2048::zero() const {
   return num_.size() == 1 && num_[0] == 0;
 }
 
+bool int2048::negative() const {
+  return negative_;
+}
+
 int2048 &int2048::add(const int2048 &x) {
   int2048 y = x;
   if (negative_ ^ x.negative_) { // subtraction

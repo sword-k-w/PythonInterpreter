@@ -63,11 +63,13 @@ std::any EvalVisitor::visitTerm(Python3Parser::TermContext *ctx) {
       if (val.type() == typeid(std::string)) {
         std::string res = "", &cur = std::any_cast<std::string &>(val);
         int2048 time = AnyToInt(val_prime);
-        while (true) {
-          --time;
-          res += cur;
-          if (time.zero()) {
-            break;
+        if (!time.zero() && !time.negative()) {
+          while (true) {
+            --time;
+            res += cur;
+            if (time.zero()) {
+              break;
+            }
           }
         }
         val = res;
