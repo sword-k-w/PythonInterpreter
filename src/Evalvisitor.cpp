@@ -35,11 +35,7 @@ double StringToDouble(const std::string &val) {
 }
 
 bool AnyToBool(std::any val) {
-  if (val.type() == typeid(std::pair<std::string, bool>)) {
-    std::pair<std::string, bool> tmp = std::any_cast<std::pair<std::string, bool> &>(val);
-    MyAssert(tmp.second);
-    val = Scope::GetValue(tmp.first);
-  }
+  TryRestore(val);
   if (val.type() == typeid(std::string)) {
     return std::any_cast<std::string &>(val) != "";
   } else if (val.type() == typeid(bool)) {
@@ -53,11 +49,7 @@ bool AnyToBool(std::any val) {
 }
 
 std::string AnyToString(std::any val) {
-  if (val.type() == typeid(std::pair<std::string, bool>)) {
-    std::pair<std::string, bool> tmp = std::any_cast<std::pair<std::string, bool> &>(val);
-    MyAssert(tmp.second);
-    val = Scope::GetValue(tmp.first);
-  }
+  TryRestore(val);
   if (val.type() == typeid(std::pair<std::string, bool>)) {
     return std::string("None");
   } else if (val.type() == typeid(std::string)) {
@@ -75,11 +67,7 @@ std::string AnyToString(std::any val) {
 }
 
 int2048 AnyToInt(std::any val) {
-  if (val.type() == typeid(std::pair<std::string, bool>)) {
-    std::pair<std::string, bool> tmp = std::any_cast<std::pair<std::string, bool> &>(val);
-    MyAssert(tmp.second);
-    val = Scope::GetValue(tmp.first);
-  }
+  TryRestore(val);
   if (val.type() == typeid(std::string)) {
     return int2048(std::any_cast<std::string &>(val));
   } else if (val.type() == typeid(bool)) {
@@ -93,11 +81,7 @@ int2048 AnyToInt(std::any val) {
 }
 
 double AnyToFloat(std::any val) {
-  if (val.type() == typeid(std::pair<std::string, bool>)) {
-    std::pair<std::string, bool> tmp = std::any_cast<std::pair<std::string, bool> &>(val);
-    MyAssert(tmp.second);
-    val = Scope::GetValue(tmp.first);
-  }
+  TryRestore(val);
   if (val.type() == typeid(std::string)) {
     return StringToDouble(std::any_cast<std::string &>(val));
   } else if (val.type() == typeid(bool)) {
