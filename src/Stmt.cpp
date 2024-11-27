@@ -55,9 +55,11 @@ std::any EvalVisitor::visitExpr_stmt(Python3Parser::Expr_stmtContext *ctx) {
   }
 
   size_t list_size = val_array.size();
+  std::cerr << list_size << '\n';
   if (ctx->augassign() == nullptr) {
     for (int i = static_cast<int>(size) - 2; i >= 0; --i) {
       tmp_array = std::any_cast<std::vector<std::any>>(visit(testlist_array[i]));
+      MyAssert(tmp_array.size() == list_size);
       for (size_t j = 0; j < list_size; ++j) {
         Scope::SetValue(std::any_cast<std::pair<std::string, bool> &>(tmp_array[j]).first, val_array[j]);
       }
