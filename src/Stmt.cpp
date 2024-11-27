@@ -52,9 +52,9 @@ std::any EvalVisitor::visitExpr_stmt(Python3Parser::Expr_stmtContext *ctx) {
     for (int i = static_cast<int>(size) - 2; i >= 0; --i) {
       cur_array = std::any_cast<std::vector<std::any>>(visit(testlist_array[i]));
       for (size_t j = 0; j < list_size; ++j) {
-        std::any val = val_array[j];
+        std::any val = val_array[list_size - 1 - j];
         TryRestore(val);
-        Scope::SetValue(std::any_cast<std::pair<std::string, bool> &>(cur_array[j]).first, val);
+        Scope::SetValue(std::any_cast<std::pair<std::string, bool> &>(cur_array[list_size - 1 - j]).first, val);
       }
       val_array = cur_array;
     }
