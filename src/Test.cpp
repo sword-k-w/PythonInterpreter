@@ -159,11 +159,13 @@ std::any EvalVisitor::visitComparison(Python3Parser::ComparisonContext *ctx) {
       }
     } else {
       if (val.type() == typeid(std::pair<std::string, bool>) || nxt.type() == typeid(std::pair<std::string, bool>)) {
-        if ((cur_op != "==") == (val.type() == nxt.type())) {
+        if (val.type() != nxt.type()) {
           return false;
-        } else {
-          continue;
         }
+        if (cur_op == "!=") {
+          return false;
+        }
+        continue;
       }
       if (val.type() == typeid(std::string) && nxt.type() != typeid(std::string)) {
         return false;
