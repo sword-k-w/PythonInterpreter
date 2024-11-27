@@ -43,6 +43,6 @@ std::any EvalVisitor::visitReturn_stmt(Python3Parser::Return_stmtContext *ctx) {
       return res;
     }
   } else {
-    return kReturnVoidStmt;
+    return std::make_pair(std::string("None"), false);
   }
 }
