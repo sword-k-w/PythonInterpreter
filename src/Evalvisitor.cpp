@@ -43,6 +43,8 @@ bool AnyToBool(std::any val) {
   } else if (val.type() == typeid(double)) {
     return std::any_cast<double &>(val) ? true : false;
   } else {
+    MyAssert(val.type() != typeid(std::pair<std::any, std::any>));
+    MyAssert(val.type() != typeid(std::vector<std::any>));
     assert(val.type() == typeid(int2048));
     return !std::any_cast<int2048 &>(val).zero();
   }
@@ -61,6 +63,8 @@ std::string AnyToString(std::any val) {
     tmp << std::fixed << std::setprecision(6) << std::any_cast<double &>(val);
     return tmp.str();
   } else {
+    MyAssert(val.type() != typeid(std::pair<std::any, std::any>));
+    MyAssert(val.type() != typeid(std::vector<std::any>));
     assert(val.type() == typeid(int2048));
     return std::string(std::any_cast<int2048 &>(val));
   }
@@ -75,6 +79,8 @@ int2048 AnyToInt(std::any val) {
   } else if (val.type() == typeid(double)) {
     return int2048(std::any_cast<double &>(val));
   } else {
+    MyAssert(val.type() != typeid(std::pair<std::any, std::any>));
+    MyAssert(val.type() != typeid(std::vector<std::any>));
     assert(val.type() == typeid(int2048));
     return std::any_cast<int2048 &>(val);
   }
@@ -89,6 +95,8 @@ double AnyToFloat(std::any val) {
   } else if (val.type() == typeid(double)) {
     return std::any_cast<double &>(val);
   } else {
+    MyAssert(val.type() != typeid(std::pair<std::any, std::any>));
+    MyAssert(val.type() != typeid(std::vector<std::any>));
     assert(val.type() == typeid(int2048));
     return double(std::any_cast<int2048 &>(val));
   }
