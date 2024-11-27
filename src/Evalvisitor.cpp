@@ -94,7 +94,7 @@ double AnyToFloat(std::any val) {
   }
 }
 
-void assert(bool x) {
+void MyAssert(bool x) {
   if (!x) {
     exit(1);
   }
