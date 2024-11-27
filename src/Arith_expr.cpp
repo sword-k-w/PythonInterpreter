@@ -60,7 +60,7 @@ std::any EvalVisitor::visitTerm(Python3Parser::TermContext *ctx) {
     std::any val_prime = visit(factor_array[i]);
     TryRestore(val_prime);
     if (cur_op == "*") {
-      if (val.type() == typeid(std::string)) {
+      if (val.type() == typeid(std::string) && val_prime.type() != typeid(std::string)) {
         std::string res = "", &cur = std::any_cast<std::string &>(val);
         int2048 time = AnyToInt(val_prime);
         if (!time.zero() && !time.negative()) {
@@ -73,7 +73,7 @@ std::any EvalVisitor::visitTerm(Python3Parser::TermContext *ctx) {
           }
         }
         val = res;
-      } else if (val_prime.type() == typeid(std::string)) {
+      } else if (val_prime.type() == typeid(std::string) && val.type() != typeid(std::string)) {
         std::string res = "", &cur = std::any_cast<std::string &>(val_prime);
         int2048 time = AnyToInt(val);
         if (!time.zero() && !time.negative()) {
