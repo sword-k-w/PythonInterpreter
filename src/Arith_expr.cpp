@@ -73,6 +73,19 @@ std::any EvalVisitor::visitTerm(Python3Parser::TermContext *ctx) {
           }
         }
         val = res;
+      } else if (val_prime.type() == typeid(std::string)) {
+        std::string res = "", &cur = std::any_cast<std::string &>(val_prime);
+        int2048 time = AnyToInt(val);
+        if (!time.zero() && !time.negative()) {
+          while (true) {
+            --time;
+            res += cur;
+            if (time.zero()) {
+              break;
+            }
+          }
+        }
+        val = res;
       } else if (val.type() == typeid(double) || val_prime.type() == typeid(double)) {
         val = AnyToFloat(val);
         std::any_cast<double &>(val) *= AnyToFloat(val_prime);
