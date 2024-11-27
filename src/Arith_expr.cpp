@@ -64,12 +64,9 @@ std::any EvalVisitor::visitTerm(Python3Parser::TermContext *ctx) {
         std::string res = "", &cur = std::any_cast<std::string &>(val);
         int2048 time = AnyToInt(val_prime);
         if (!time.zero() && !time.negative()) {
-          while (true) {
+          while (!time.zero()) {
             --time;
             res += cur;
-            if (time.zero()) {
-              break;
-            }
           }
         }
         val = res;
@@ -77,12 +74,9 @@ std::any EvalVisitor::visitTerm(Python3Parser::TermContext *ctx) {
         std::string res = "", &cur = std::any_cast<std::string &>(val_prime);
         int2048 time = AnyToInt(val);
         if (!time.zero() && !time.negative()) {
-          while (true) {
+          while (!time.zero()) {
             --time;
             res += cur;
-            if (time.zero()) {
-              break;
-            }
           }
         }
         val = res;
@@ -143,6 +137,9 @@ std::any EvalVisitor::visitAtom_expr(Python3Parser::Atom_exprContext *ctx) {
     std::vector<std::any> val_array = std::any_cast<std::vector<std::any>>(visit(ctx->trailer()));
     size_t size = val_array.size();
     if (name == "print") {
+      if (size == 0) {
+        std::cout << '\n';
+      }
       for (size_t i = 0; i < size; ++i) {
         if (val_array[i].type() == typeid(std::pair<std::string, bool>)) {
           std::cout << "None";
