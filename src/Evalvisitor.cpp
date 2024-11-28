@@ -36,7 +36,9 @@ double StringToDouble(const std::string &val) {
 
 bool AnyToBool(std::any val) {
   TryRestore(val);
-  if (val.type() == typeid(std::string)) {
+  if (val.type() == typeid(std::pair<std::string, bool>)) {
+    return false;
+  } else if (val.type() == typeid(std::string)) {
     return std::any_cast<std::string &>(val) != "";
   } else if (val.type() == typeid(bool)) {
     return std::any_cast<bool &>(val);
@@ -68,7 +70,9 @@ std::string AnyToString(std::any val) {
 
 int2048 AnyToInt(std::any val) {
   TryRestore(val);
-  if (val.type() == typeid(std::string)) {
+  if (val.type() == typeid(std::pair<std::string, bool>)) {
+    return int2048();
+  } else if (val.type() == typeid(std::string)) {
     return int2048(std::any_cast<std::string &>(val));
   } else if (val.type() == typeid(bool)) {
     return int2048(std::any_cast<bool &>(val) ? 1ll : 0ll);
@@ -82,7 +86,9 @@ int2048 AnyToInt(std::any val) {
 
 double AnyToFloat(std::any val) {
   TryRestore(val);
-  if (val.type() == typeid(std::string)) {
+  if (val.type() == typeid(std::pair<std::string, bool>)) {
+    return 0.0;
+  } else if (val.type() == typeid(std::string)) {
     return StringToDouble(std::any_cast<std::string &>(val));
   } else if (val.type() == typeid(bool)) {
     return std::any_cast<bool &>(val) ? 1.0 : 0.0;
