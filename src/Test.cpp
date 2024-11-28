@@ -62,7 +62,7 @@ std::any EvalVisitor::visitAnd_test(Python3Parser::And_testContext *ctx) {
   if (!AnyToBool(val)) {
     return false;
   }
-  for (size_t i = 0; i < size; ++i) {
+  for (size_t i = 1; i < size; ++i) {
     val = visit(not_array[i]);
     TryRestore(val);
     if (!AnyToBool(val)) {
