@@ -37,7 +37,6 @@ std::any EvalVisitor::visitTfpdef(Python3Parser::TfpdefContext *ctx) {
 }
 
 std::any EvalVisitor::visitArglist(Python3Parser::ArglistContext *ctx) {
-  // std::cerr << "Arglist!\n";
   std::vector<Python3Parser::ArgumentContext *> arg_array = ctx->argument();
   std::vector<std::any> res;
   for (auto &arg : arg_array) {
@@ -55,7 +54,6 @@ std::any EvalVisitor::visitArglist(Python3Parser::ArglistContext *ctx) {
 }
 
 std::any EvalVisitor::visitArgument(Python3Parser::ArgumentContext *ctx) {
-  // std::cerr << "Argument!\n";
   std::vector<Python3Parser::TestContext *> test_array = ctx->test();
   if (test_array.size() == 1) {
     std::any val = visit(test_array[0]);
