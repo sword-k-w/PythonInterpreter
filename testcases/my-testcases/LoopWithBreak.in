@@ -1,0 +1,8 @@
+a = 2
+while a <= 10 :
+    b = a;
+    while True :
+        if b > 20 : break
+        print(b)
+        b *= a;
+    a = a + 1

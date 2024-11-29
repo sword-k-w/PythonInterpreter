@@ -9,7 +9,6 @@ resources/.antlr
 # problem files
 docs/
 resources/
-testcases/
 
 # other files
 data.txt

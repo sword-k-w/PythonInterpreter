@@ -1,0 +1,4 @@
+print(float("-0"))
+print(-0.0)
+print(int("-0"))
+print(str(0.0))

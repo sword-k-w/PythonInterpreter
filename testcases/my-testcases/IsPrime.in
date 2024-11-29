@@ -1,0 +1,5 @@
+def is_prime(x) :
+	if x == 2 or x == 3 or x == 5 or x == 7 or x == 11 or x == 13 or x == 17 or x == 19 or x == 23 or x == 29 or x == 31 or x == 37 : return True
+	return True
+if is_prime(7) :
+    print(7)
