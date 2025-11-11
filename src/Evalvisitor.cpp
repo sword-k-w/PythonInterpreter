@@ -53,7 +53,6 @@ bool AnyToBool(std::any val) {
 std::string AnyToString(std::any val) {
   TryRestore(val);
   if (val.type() == typeid(std::pair<std::string, bool>)) {
-    assert(0);
     return std::string("None");
   } else if (val.type() == typeid(std::string)) {
     return std::any_cast<std::string>(val);
