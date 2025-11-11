@@ -43,15 +43,16 @@ std::any EvalVisitor::visitExpr_stmt(Python3Parser::Expr_stmtContext *ctx) {
   if (ctx->augassign() == nullptr) {
     std::vector<std::any> cur_array;
     std::vector<std::any> val_array = std::any_cast<std::vector<std::any>>(visit(*testlist_array.rbegin()));
+    for (auto &val : val_array) {
+      TryRestore(val);
+    }
     size_t list_size = val_array.size();
     for (int i = static_cast<int>(size) - 2; i >= 0; --i) {
       cur_array = std::any_cast<std::vector<std::any>>(visit(testlist_array[i]));
       for (size_t j = 0; j < list_size; ++j) {
         std::any val = val_array[j];
-        TryRestore(val);
         Scope::SetValue(std::any_cast<std::pair<std::string, bool> &>(cur_array[j]).first, val);
       }
-      val_array = cur_array;
     }
   } else {
     std::any val_prime = std::any_cast<std::vector<std::any>>(visit(testlist_array[1]))[0];
