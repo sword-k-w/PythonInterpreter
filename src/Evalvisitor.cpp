@@ -20,14 +20,16 @@ double StringToDouble(const std::string &val) {
     ++first;
     w = -1;
   }
+  bool flag = false;
   for (size_t i = first; i < size; ++i) {
     if (val[i] == '.') {
+      flag = true;
       continue;
     }
     res = res * 10 + val[i] - '0';
   }
   size_t pos = size - 1;
-  while (val[pos] != '.') {
+  while (flag && val[pos] != '.') {
     res /= 10;
     --pos;
   }
